@@ -173,56 +173,56 @@ Open (msg):
     is not a complete specification.
 <p>
 
-    I would click on the link there, and get a good general picture, before
-    going on to detail that follows here.
-<p>
-
-    What follows is configuration file structure detail.
-    It almost certainly goes beyond what users want to see.
-    It's a spec, however, that the implementation here follows.
+    What follows is detail. It goes beyond what users want to see.
 <p>
 
     <h1 id="1_DetailFirstPassLineContinuationChars">Detail First Pass - Line Continuation Chars</h1>
 <p>
 
-    When reading a file, the parser looks for an escape char (<code class="code"><span class="string">'\\'</span></code>) at the 
-    end of a line.  If it sees one, it combines the line with the next line.
-    as one line, and it deletes the escape char.
+    If the parser sees an escape char (<code class="code"><span class="string">'\\'</span></code>) at the end of a line, it
+    combines the line with the next line.
 <p>
 
     The escape char may itself be escaped, in which case it loses its special
     meaning as a line continuation mark.
 <p>
 
-    <h2 id="2_AWeirdCaseLongReadswithContinuationChars">A Weird Case - Long Reads with Continuation Chars</h2>
+    <h2 id="2_BoundedReadsandContinuationChars">Bounded Reads and Continuation Chars</h2>
 <p>
 
-    The parser reads a bounded number of characters from a file in one read,
-    if it does not find a newline (end of line).  In this case, the parser
-    notes that the line is long, and then reads again.
+    The parser reads up to a newline, or to a maximum length if no newline
+    is found. If no newline is found, the parser does another read, and so on
+    until a newline is found or end of file is is detected.
 <p>
 
-    The maximum number of characters the parser reads is 510. This number is
-    dictated by a need for C code to put null bytes in a 512 byte buffer.
+    The maximum number of characters the parser reads in one read is 510.
+    This number is dictated by a need for C code to put null bytes in a
+    512 byte buffer.
 <p>
 
-    Why does this matter? Because if the parser sees an escape char (<code class="code"><span class="string">'\\'</span></code>)
-    at the end of a long line read, it treats it as a continuation char, and
-    removes it.
+    If the parser sees an escape char (<code class="code"><span class="string">'\\'</span></code>) at the end of a read, it will
+    apply its continuation char logic. The logic applies even if a newline
+    is not seen at the end. So, if the parser decides it has a continuation
+    character, it will skip over it.
 <p>
 
-    This weird case can happen, so we have reproduced what the Openssl parser
-    does, in this implementation.
+    This implementation imitates what the Openssl parser would do. It looks
+    at the 510 byte mark for an escape char, and skips over it if found.
 <p>
 
-    The result of the first pass is a combined line, which we now go over in
-    detail.
+    <h2 id="2_Linenumbererrorreporting">Line number error reporting</h2>
+<p>
+
+    When there is an error, the line number reported is the line number in the
+    file. This implementation also reports the column where an error is seen.
+    Line numbers and columns reported are 1-based, so the first line is line 1
+    and the first column is column 1.
 <p>
 
     <h1 id="1_Commentlines">Comment lines</h1>
 <p>
 
-    A comment line either an empty line, a line of all whitespace,
+    A comment line is either an empty line, a line of all whitespace,
     or whitespace followed by a hash char followed by anything.
 <p>
 
@@ -373,12 +373,12 @@ Open (msg):
     stripped.
 <p>
 
-    <h3 id="3_Namesubstitutions">Name substitutions</h3>
+    <h3 id="3_Namesubstitution">Name substitution</h3>
 <p>
 
-    Name substitutions start with a (<code class="code"><span class="string">'$'</span></code>) character.
-    The (<code class="code"><span class="string">'$'</span></code>) character is followed by a name.
-    Optionally, the name may be wrapped
+    Name substitution starts with a (<code class="code"><span class="string">'$'</span></code>) character.
+    The (<code class="code"><span class="string">'$'</span></code>) character should be followed by a name.
+    The name may be optionally wrapped
     by parentheses (<code class="code"><span class="string">"()"</span></code>) or curly brackets (<code class="code"><span class="string">"{}"</span></code>).
     The <code class="code">subst</code> evaluator replaces
     the (<code class="code"><span class="string">'$'</span></code>), the optional wrapping, and the name
@@ -392,7 +392,7 @@ Open (msg):
 <p>
 
     If substitution fails, the parser returns an error,
-    The error reports that no value could be found for the name.
+    It reports that no value could be found for the name.
 <p>
 
     A name given for name substitution may only contain
