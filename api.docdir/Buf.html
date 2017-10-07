@@ -3,7 +3,6 @@
 <head>
 <link rel="stylesheet" href="style.css" type="text/css">
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="Start" href="index.html">
 <link rel="previous" href="Bio.html">
 <link rel="Up" href="index.html">
@@ -41,7 +40,7 @@ This implements Openssl's buffer allocation policy in an OCaml runtime.
     <a href=" https://github.com/openssl/openssl/blob/master/crypto/buffer/buffer.c"> buffer.c</a><br>
 <br>
 An Sslconf buffer supports an underlying <code class="code"><span class="constructor">Bytes</span>.t</code> buffer.
-    <code class="code">empty&nbsp;nbits</code> is the constructor.
+    <code class="code">empty nbits</code> is the constructor.
     Max allocated size is 2**<code class="code">nbits</code>-1 bytes.
     A good default <code class="code">nbits</code> value is 31.
     <code class="code">length</code> bytes are expected, These bytes are initialized to a null value.
@@ -54,17 +53,17 @@ Buffer type.<br>
 
 
 <pre><span id="VALempty"><span class="keyword">val</span> empty</span> : <code class="type">int -> <a href="Buf.html#TYPEt">t</a></code></pre><div class="info ">
-<code class="code">empty&nbsp;nbits</code> creates an empty buffer.<br>
+<code class="code">empty nbits</code> creates an empty buffer.<br>
 </div>
 
 <pre><span id="VALdata"><span class="keyword">val</span> data</span> : <code class="type"><a href="Buf.html#TYPEt">t</a> -> Bytes.t</code></pre><div class="info ">
-<code class="code">data&nbsp;buf</code> returns the underlying <code class="code"><span class="constructor">Bytes</span>.t</code> buffer.<br>
+<code class="code">data buf</code> returns the underlying <code class="code"><span class="constructor">Bytes</span>.t</code> buffer.<br>
 </div>
 
 <pre><span id="VALextend"><span class="keyword">val</span> extend</span> : <code class="type"><a href="Buf.html#TYPEt">t</a> -> int -> (<a href="Buf.html#TYPEt">t</a>, string * int * int * int) Pervasives.result</code></pre><div class="info ">
-<code class="code">extend&nbsp;buf&nbsp;length</code> extends <code class="code">buf</code> to support <code class="code">length</code> bytes.
-    <code class="code"><span class="constructor">Ok</span>&nbsp;buf</code> or <code class="code"><span class="constructor">Error</span>&nbsp;(msg&nbsp;length&nbsp;nbits&nbsp;allocation_limit)</code> is returned.
-    New bytes up to <code class="code"><span class="constructor">Bytes</span>.length&nbsp;(<span class="constructor">Buf</span>.data&nbsp;buf)</code> are initialized
+<code class="code">extend buf length</code> extends <code class="code">buf</code> to support <code class="code">length</code> bytes.
+    <code class="code"><span class="constructor">Ok</span> buf</code> or <code class="code"><span class="constructor">Error</span> (msg length nbits allocation_limit)</code> is returned.
+    New bytes up to <code class="code"><span class="constructor">Bytes</span>.length (<span class="constructor">Buf</span>.data buf)</code> are initialized
     to null. An error occurs, and no allocation is done, if <code class="code">length</code>
     would cause an allocation greater than buffer max allocated size.<br>
 </div>
