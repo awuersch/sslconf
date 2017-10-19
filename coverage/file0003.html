@@ -146,7 +146,7 @@ open Testcase
 
 let cmd dest =
   <span data-count="1">i</span>f <span data-count="1">n</span>ot (Sys.file_exists dest) ||
-     <span data-count="1">n</span>ot (Sys.is_directory dest) ||
+     <span data-count="2">n</span>ot (Sys.is_directory dest) ||
      <span data-count="1">A</span>rray.length (Sys.readdir dest) != 0
   then
     <span data-count="0">`</span>Error (false, dest ^ " is not an empty directory")
@@ -174,7 +174,7 @@ let cmd dest =
 let dest =
   <span data-count="1">l</span>et doc = <span data-count="1">"</span>Directory to write cases to." in
   <span data-count="1">l</span>et docv = <span data-count="1">"</span>DEST" in
-  <span data-count="1">A</span>rg.(<span data-count="1">r</span>equired &amp; <span data-count="1">p</span>os ~rev:true 0 (some string) None &amp; <span data-count="1">i</span>nfo [] ~docv ~doc)
+  <span data-count="1">A</span>rg.(<span data-count="1">r</span>equired &amp; <span data-count="2">p</span>os ~rev:true 0 (some string) None &amp; <span data-count="1">i</span>nfo [] ~docv ~doc)
 
 let cmd =
   <span data-count="1">l</span>et doc = <span data-count="1">"</span>Write test cases to directory" in
@@ -193,7 +193,7 @@ let () = <span data-count="1">T</span>erm.(exit ~term_err:1 @@ eval cmd)
 </pre>
       </div>
     </div>
-    <div id="footer">Generated on 2017-10-07 01:07:31 by <a href="https://github.com/aantron/bisect_ppx">Bisect_ppx</a> 1.3.0</div>
+    <div id="footer">Generated on 2017-10-19 16:39:13 by <a href="https://github.com/aantron/bisect_ppx">Bisect_ppx</a> 1.3.1</div>
     <script src="coverage.js"></script>
   </body>
 </html>
