@@ -14,46 +14,48 @@ stacks defined in Openssl's crypto library.</p><p>Openssl code:
 </p><ul><li>a (<code class="code">&quot;[&lt;section&gt;]&quot;</code>) string inside square brackets; or</li></ul></li><li><p>value lines, i.e.,
 </p><ul><li>a (<code class="code">&quot;&lt;name&gt; = &lt;value&gt;&quot;</code>) assignment.</li></ul></li></ul><p>Openssl config file documentation:
 <a href="https://www.openssl.org/docs/manmaster/man5/config.html">config.html</a></p><p>The Openssl config file documentation is enough for most users, but
-is not a complete specification.</p><p>What follows is detail for mainainers.</p><h2>Detail First Pass - Line Continuation Chars</h2><p>If the parser sees an escape char (<code class="code">'\\'</code>) at the end of a line, it
-combines the line with the next line.</p><p>The escape char may itself be escaped. If excaped, the escape char
+is not a complete specification.</p><p>What follows is detail for maintainers.</p><h2>Detail First Pass - Line Continuation Chars</h2><p>If the parser sees an escape char (<code class="code">'\\'</code>) at the end of a line, it
+combines the line with the next line.</p><p>The escape char may itself be escaped. If escaped, the escape char
 loses its special meaning as a line continuation mark.</p><h3>Bounded Reads and Continuation Chars</h3><p>The parser reads up to a newline, or a maximum length if no newline
 is found. If no newline is found, the parser does another read,
 and so on, until a newline is found or end of file is is detected.</p><p>The max number of characters the parser reads in one read is 510.
 This number is dictated by a need for C code to put null bytes in a
-512 byte buffer.</p><p>This implementation follows the 510 char rule, so a config file
-valid in Openssl will still be valid here.</p><p>If the parser sees an escape char (<code class="code">'\\'</code>) at the end of a read, it
-will apply line continuation logic -- even if a newline is not seen
-at the end.</p><p>Line continuation characters are skipped over.</p><h3>Line number error reporting</h3><p>When there is an error, the line number reported is the line number in the
-file. This implementation also reports the column where an error is seen.
-Line numbers and columns reported are 1-based, so the first line is line 1
-and the first column is column 1.</p><h2>Comment lines</h2><p>A comment line is either an empty line, a line of all whitespace,
-or whitespace followed by a hash char followed by anything.</p><p>Comments are not saved.</p><p>In Win32 only, a line starting with a semicolon is also a comment.</p><p>The end of a value line may have a comment.
-These comments start with a hash char.
-Any text up to end of line can follow the hash char.</p><h2>Section lines</h2><p>A section line has a (<code class="code">&quot;[&lt;section&gt;]&quot;</code>) string surrounded by square brackets.
-After whitespace is trimmed from both ends, the string names
-a section.</p><p>A section may contain alphanumerics, underscores, punctuation,
-or whitespace.</p><p>Alphanumerics are any letter (from <code class="code">'a'</code> to <code class="code">z</code> or <code class="code">'A'</code> to <code class="code">'Z'</code>)
+512 byte buffer.</p><p>This implementation follows the 510 char rule.
+A config file valid in Openssl will still be valid here.</p><p>If the parser sees an escape char (<code class="code">'\\'</code>) at the end of a read,
+i.e., as the 510th character,
+it will apply line continuation logic -- even if
+a newline is not seen at the end.</p><p>Line continuation characters are skipped over.</p><h3>Line number error reporting</h3><p>An error line number reported is the line number in the
+file. Also reported is the column where an error is seen.
+The first line is line 1. The first column is column 1.</p><h2>Comment lines</h2><p>A comment line is either an empty line, a line of all whitespace,
+or whitespace followed by a hash char.</p><p>In Win32 only, a line starting with a semicolon is also a comment.</p><p>Comment lines are ignored and not saved.</p><p>The end of a value line may have a comment.
+Value line comments start with a hash char.
+Any text up to end of line can follow the hash char.</p><h2>Section lines</h2><p>A section line has a (<code class="code">&quot;[&lt;section&gt;]&quot;</code>) string surrounded by square
+brackets. The string names a section.</p><p>Whitespace is trimmed from both ends of the string.</p><p>A section may contain
+alphanumerics, underscores, punctuation, or whitespace.</p><p>Alphanumerics are any letter (from <code class="code">'a'</code> to <code class="code">z</code> or <code class="code">'A'</code> to <code class="code">'Z'</code>)
 or a number (from <code class="code">'0'</code> to <code class="code">'9'</code>).</p><p>Underscores are one or more underscore ('_') characters.</p><p>Punctuation is one or more of the following characters:
 (<code class="code">'!'</code>, <code class="code">'.'</code>, <code class="code">'%'</code>, <code class="code">'&amp;'</code>, <code class="code">'*'</code>, <code class="code">'+'</code>, <code class="code">';'</code>,
 <code class="code">'?'</code>, <code class="code">'@'</code>, <code class="code">'^'</code>, <code class="code">'~'</code>, <code class="code">'|'</code>, or <code class="code">'-'</code>).</p><p>A section may also contain <em>escaped</em> characters.
 An escaped character immediately follows an escape (<code class="code">'\\'</code>) char.
-Any character can be an escaped character.</p><p>If an escaped character is (<code class="code">'r'</code>, <code class="code">'n'</code>, <code class="code">'b'</code>, or <code class="code">'t'</code>), it
+Any character may be an escaped character.</p><p>If an escaped character is (<code class="code">'r'</code>, <code class="code">'n'</code>, <code class="code">'b'</code>, or <code class="code">'t'</code>), it
 is translated into a whitespace char (<code class="code">&quot;\r&quot;, &quot;\n&quot;, &quot;\b&quot;, or &quot;\t&quot;</code>).
-Otherwise, it is retained <em>as is</em>.</p><p>Escape chars are stripped out from a section name. Escaped chars
-appear in section keys as if they were not escaped.</p><p>The section in a section line becomes a default section
+Otherwise, it is retained <em>as is</em>.</p><p>Escape chars are stripped out from a section. Escaped chars
+therefore appear in section keys as if they were not escaped.</p><p>The section named in a section line becomes the default section
 for lines which follow.
-It remains the default until a next section line is read.</p><h2>Value lines</h2><p>A line with a a (<code class="code">&quot;&lt;name&gt; = &lt;value&gt;&quot;</code>) assignment.
-i.e., a name, an equal sign, and a value, is a value line.
-A value line assigns a value to a name.</p><h3>Names</h3><p>Lexical rules for a name (qualified or unqualified) are more
+It remains the default until a new section line is read.</p><h2>Value lines</h2><p>A line with a (<code class="code">&quot;&lt;name&gt; = &lt;value&gt;&quot;</code>) assignment is a value line.
+A value line always has a name, an equal sign, and a value.
+Whitespace before or after the equal sign is optional.</p><p>A value line assigns a value to a name in a section.</p><h3>Names</h3><p>Lexical rules for a name (qualified or unqualified) are more
 restrictive than for a section in a section line.</p><p>Whitespace is trimmed from both ends of a name.</p><p>A name may contain alphanumerics, underscores, and punctuation.
 A name may not contain whitespace.</p><p>As with section names, escaped characters are allowed.
 An escaped character immediately follows an escape (<code class="code">'\\'</code>) char.
-Any character may be an escaped character.</p><p>Unlike the case of section names, escape chars are not stripped.
-An escape char goes in the hash table as part of a name.</p><p>A name can be qualified or unqualified. A qualified name splits
-into two parts, separated by a two-colon string (<code class="code">&quot;::&quot;</code>). The first
-part of a qualified name is the section; the second part is the
-name. An unqualified name belongs to the current default section.</p><p>If the section of a qualified name is not in the hash table, a
-new entry for the section is added.</p><h3>Values</h3><p>A value is a concatenated sequence of parts. It starts with the
+Any character may be an escaped character.</p><p>Unlike with section names, escape chars are not stripped.
+An escape char goes in the hash table as part of a name.</p><p>A name can be qualified or unqualified.</p><p>A qualified name splits
+into two parts, separated by a two-colon string (<code class="code">&quot;::&quot;</code>).
+The first part of a qualified name is the section.
+The second part is the name.</p><p>If the section of a qualified name is not in the hash table, a
+new entry for the section is added.</p><p>An unqualified name belongs to the default section.
+The default section is the section named by the most recent
+previous section line, or &quot;default&quot; if no section line has
+occured yet.</p><h3>Values</h3><p>A value is a concatenated sequence of parts. It starts with the
 first non-whitespace character after the equal sign on a value line.</p><p>A part is one of three kinds:
 </p><ul><li>wrapped by double or single quotes;</li><li>a name substitution; or</li><li>regular text.</li></ul><p>Whitespace is stripped from the start and end of a value. Hence,
 whitespace following the equal sign, and whitespace to the end of
