@@ -3,6 +3,7 @@
 <head>
 <link rel="stylesheet" href="style.css" type="text/css">
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="Start" href="index.html">
 <link rel="previous" href="Sslconf.Buf.html">
 <link rel="Up" href="Sslconf.html">
@@ -26,7 +27,7 @@ Openssl code:
       <a href=" https://github.com/openssl/openssl/blob/master/crypto/bio/bio_lib.c"> bio_lib.c</a><br>
 
 <pre><span id="VALgets"><span class="keyword">val</span> gets</span> : <code class="type">Pervasives.in_channel -> Bytes.t -> int -> int -> int</code></pre><div class="info ">
-<code class="code">gets ic buf pos max</code> gets a line from <code class="code">ic</code> and puts it at <code class="code">pos</code> in <code class="code">buf</code>.
+<code class="code">gets&nbsp;ic&nbsp;buf&nbsp;pos&nbsp;max</code> gets a line from <code class="code">ic</code> and puts it at <code class="code">pos</code> in <code class="code">buf</code>.
       Number of bytes read is returned.
       If 0 bytes are read, then <code class="code">ic</code> is at end of file.
       Line length is limited to <code class="code">max</code> bytes if no newline is found.
