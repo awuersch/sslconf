@@ -3,12 +3,22 @@
 <head>
 <link rel="stylesheet" href="style.css" type="text/css">
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="Start" href="index.html">
 <link rel="Up" href="index.html">
 <link title="Index of types" rel=Appendix href="index_types.html">
 <link title="Index of values" rel=Appendix href="index_values.html">
 <link title="Index of modules" rel=Appendix href="index_modules.html">
-<link title="Sslconf" rel="Chapter" href="Sslconf.html"><title>Sslconf</title>
+<link title="Sslconf" rel="Chapter" href="Sslconf.html"><link title="Parser Overview" rel="Section" href="#1_ParserOverview">
+<link title="Detail First Pass - Line Continuation Chars" rel="Section" href="#1_DetailFirstPassLineContinuationChars">
+<link title="Comment lines" rel="Section" href="#1_Commentlines">
+<link title="Section lines" rel="Section" href="#1_Sectionlines">
+<link title="Value lines" rel="Section" href="#1_Valuelines">
+<link title="Bounded Reads and Continuation Chars" rel="Subsection" href="#2_BoundedReadsandContinuationChars">
+<link title="Line number error reporting" rel="Subsection" href="#2_Linenumbererrorreporting">
+<link title="Names" rel="Subsection" href="#2_Names">
+<link title="Values" rel="Subsection" href="#2_Values">
+<title>Sslconf</title>
 </head>
 <body>
 <div class="navbar">&nbsp;<a class="up" href="index.html" title="Index">Up</a>
@@ -64,78 +74,10 @@ Openssl config files are ubiquitous in books, in documentation,
     <a href=" https://github.com/openssl/openssl/blob/master/crypto/conf/conf_def.c"> conf_def.c</a>
     <a href=" https://github.com/openssl/openssl/blob/master/crypto/conf/conf_api.c"> conf_api.c</a>
     <a href=" https://github.com/openssl/openssl/blob/master/crypto/conf/conf_lib.c"> conf_lib.c</a>
-    <a href=" https://github.com/openssl/openssl/blob/master/crypto/bio/bss_fd.c"> bss_fd.c</a><br>
+    <a href=" https://github.com/openssl/openssl/blob/master/crypto/bio/bss_fd.c"> bss_fd.c</a>
+<p>
 
-<pre><span id="TYPEt"><span class="keyword">type</span> <code class="type"></code>t</span> </pre>
-<div class="info ">
-Sslconf type<br>
-</div>
-
-
-<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">unit -> <a href="Sslconf.html#TYPEt">t</a></code></pre><div class="info ">
-Initialize an Sslconf instance<br>
-</div>
-
-<pre><span id="VALnbits"><span class="keyword">val</span> nbits</span> : <code class="type">int option Pervasives.ref</code></pre><div class="info ">
-<code class="code"><span class="constructor">FOR</span> <span class="constructor">TESTING</span> <span class="constructor">ONLY</span></code> Limits buffer allocated memory to a max bit length.<br>
-</div>
-
-<pre><code><span id="TYPEerror"><span class="keyword">type</span> <code class="type"></code>error</span> = </code></pre><table class="typetable">
-<tr>
-<td align="left" valign="top" >
-<code><span class="keyword">|</span></code></td>
-<td align="left" valign="top" >
-<code><span id="TYPEELTerror.Open"><span class="constructor">Open</span></span> <span class="keyword">of</span> <code class="type">string</code></code></td>
-
-</tr>
-<tr>
-<td align="left" valign="top" >
-<code><span class="keyword">|</span></code></td>
-<td align="left" valign="top" >
-<code><span id="TYPEELTerror.Extend"><span class="constructor">Extend</span></span> <span class="keyword">of</span> <code class="type">string * int * int * int</code></code></td>
-
-</tr>
-<tr>
-<td align="left" valign="top" >
-<code><span class="keyword">|</span></code></td>
-<td align="left" valign="top" >
-<code><span id="TYPEELTerror.Parse"><span class="constructor">Parse</span></span> <span class="keyword">of</span> <code class="type">string * int * int * string * string</code></code></td>
-<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
-Open (msg):
-    <ul>
-<li>open failure message</li>
-</ul>
-
-    Extend (msg nbits max_length max_alloc):
-    <ul>
-<li>failure message;</li>
-<li>number of bits allowed in buffer size;</li>
-<li>requested new length of buffer;</li>
-<li>allocation limit of buffer size.</li>
-</ul>
-
-    Parse (file lineno col proc msg):
-    <ul>
-<li>file name;</li>
-<li>line number where error was seen;</li>
-<li>column position where error was seen;</li>
-<li>procedure name in which error was seen;</li>
-<li>error message.</li>
-</ul>
-<br>
-</div>
-</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
-</tr></table>
-
-
-
-<pre><span id="VALerror_to_string"><span class="keyword">val</span> error_to_string</span> : <code class="type"><a href="Sslconf.html#TYPEerror">error</a> -> string</code></pre><div class="info ">
-<code class="code">error_to_string error</code> converts an error to a user-readable string.<br>
-</div>
-
-<pre><span id="VALconf_load_file"><span class="keyword">val</span> conf_load_file</span> : <code class="type"><a href="Sslconf.html#TYPEt">t</a> -> string -> (unit, <a href="Sslconf.html#TYPEerror">error</a>) Pervasives.result</code></pre><div class="info ">
-<code class="code">conf_load_file conf filename</code> loads a file into a <a href="Sslconf.html#TYPEt"><code class="code"><span class="constructor">Sslconf</span>.t</code></a> instance.
-    The error instance describes only the first failure found.
+    <h1 id="1_ParserOverview">Parser Overview</h1>
 <p>
 
     Lines recognized by the parser are:
@@ -154,7 +96,7 @@ Open (msg):
 </li>
 <li>value lines, i.e.,
            <ul>
-<li>a (<code class="code"><span class="string">"&lt;name&gt; = &lt;value&gt;"</span></code>) assignment.</li>
+<li>a (<code class="code"><span class="string">"&lt;name&gt;&nbsp;=&nbsp;&lt;value&gt;"</span></code>) assignment.</li>
 </ul>
 </li>
 </ul>
@@ -263,7 +205,7 @@ Open (msg):
 <p>
 
     If an escaped character is (<code class="code"><span class="string">'r'</span></code>, <code class="code"><span class="string">'n'</span></code>, <code class="code"><span class="string">'b'</span></code>, or <code class="code"><span class="string">'t'</span></code>), it
-    is translated into a whitespace char (<code class="code"><span class="string">"\r"</span>, <span class="string">"\n"</span>, <span class="string">"\b"</span>, <span class="keyword">or</span> <span class="string">"\t"</span></code>).
+    is translated into a whitespace char (<code class="code"><span class="string">"\r"</span>,&nbsp;<span class="string">"\n"</span>,&nbsp;<span class="string">"\b"</span>,&nbsp;<span class="keyword">or</span>&nbsp;<span class="string">"\t"</span></code>).
     Otherwise, it is retained <em>as is</em>.
 <p>
 
@@ -279,7 +221,7 @@ Open (msg):
     <h1 id="1_Valuelines">Value lines</h1>
 <p>
 
-    A line with a a (<code class="code"><span class="string">"&lt;name&gt; = &lt;value&gt;"</span></code>) assignment.
+    A line with a a (<code class="code"><span class="string">"&lt;name&gt;&nbsp;=&nbsp;&lt;value&gt;"</span></code>) assignment.
     i.e., a name, an equal sign, and a value, is a value line.
     A value line assigns a value to a name.
 <p>
@@ -425,7 +367,7 @@ Open (msg):
 <p>
 
     If an escaped character is (<code class="code"><span class="string">'r'</span></code>, <code class="code"><span class="string">'n'</span></code>, <code class="code"><span class="string">'b'</span></code>, or <code class="code"><span class="string">'t'</span></code>), it
-    is translated into a whitespace char (<code class="code"><span class="string">"\r"</span>, <span class="string">"\n"</span>, <span class="string">"\b"</span>, <span class="keyword">or</span> <span class="string">"\t"</span></code>).
+    is translated into a whitespace char (<code class="code"><span class="string">"\r"</span>,&nbsp;<span class="string">"\n"</span>,&nbsp;<span class="string">"\b"</span>,&nbsp;<span class="keyword">or</span>&nbsp;<span class="string">"\t"</span></code>).
     If it is not one of these characters, it is retained <em>as is</em>.
 <p>
 
@@ -451,10 +393,83 @@ Open (msg):
     Characters not belonging to wrapped segments or name substitutions
     can be any character.
     For example, whitespace can occur in the middle of a value.<br>
+
+<pre><span class="keyword">module</span> <a href="Sslconf.Buf.html">Buf</a>: <code class="code"><span class="keyword">sig</span></code> <a href="Sslconf.Buf.html">..</a> <code class="code"><span class="keyword">end</span></code></pre>
+<pre><span class="keyword">module</span> <a href="Sslconf.Bio.html">Bio</a>: <code class="code"><span class="keyword">sig</span></code> <a href="Sslconf.Bio.html">..</a> <code class="code"><span class="keyword">end</span></code></pre>
+<pre><span id="TYPEt"><span class="keyword">type</span> <code class="type"></code>t</span> </pre>
+<div class="info ">
+Sslconf type<br>
+</div>
+
+
+<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">unit -> <a href="Sslconf.html#TYPEt">t</a></code></pre><div class="info ">
+Initialize an Sslconf instance<br>
+</div>
+
+<pre><span id="VALnbits"><span class="keyword">val</span> nbits</span> : <code class="type">int option Pervasives.ref</code></pre><div class="info ">
+<code class="code"><span class="constructor">FOR</span>&nbsp;<span class="constructor">TESTING</span>&nbsp;<span class="constructor">ONLY</span></code> Limits buffer allocated memory to a max bit length.<br>
+</div>
+
+<pre><code><span id="TYPEerror"><span class="keyword">type</span> <code class="type"></code>error</span> = </code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTerror.Open"><span class="constructor">Open</span></span> <span class="keyword">of</span> <code class="type">string</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTerror.Extend"><span class="constructor">Extend</span></span> <span class="keyword">of</span> <code class="type">string * int * int * int</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTerror.Parse"><span class="constructor">Parse</span></span> <span class="keyword">of</span> <code class="type">string * int * int * string * string</code></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
+Open (msg):
+    <ul>
+<li>open failure message</li>
+</ul>
+
+    Extend (msg nbits max_length max_alloc):
+    <ul>
+<li>failure message;</li>
+<li>number of bits allowed in buffer size;</li>
+<li>requested new length of buffer;</li>
+<li>allocation limit of buffer size.</li>
+</ul>
+
+    Parse (file lineno col proc msg):
+    <ul>
+<li>file name;</li>
+<li>line number where error was seen;</li>
+<li>column position where error was seen;</li>
+<li>procedure name in which error was seen;</li>
+<li>error message.</li>
+</ul>
+<br>
+</div>
+</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+
+
+
+<pre><span id="VALerror_to_string"><span class="keyword">val</span> error_to_string</span> : <code class="type"><a href="Sslconf.html#TYPEerror">error</a> -> string</code></pre><div class="info ">
+<code class="code">error_to_string&nbsp;error</code> converts an error to a user-readable string.<br>
+</div>
+
+<pre><span id="VALconf_load_file"><span class="keyword">val</span> conf_load_file</span> : <code class="type"><a href="Sslconf.html#TYPEt">t</a> -> string -> (unit, <a href="Sslconf.html#TYPEerror">error</a>) Pervasives.result</code></pre><div class="info ">
+<code class="code">conf_load_file&nbsp;conf&nbsp;filename</code> loads a file into a <a href="Sslconf.html#TYPEt"><code class="code"><span class="constructor">Sslconf</span>.t</code></a> instance.
+    The error instance describes only the first failure found.<br>
 </div>
 
 <pre><span id="VALconf_get_string"><span class="keyword">val</span> conf_get_string</span> : <code class="type">?conf:<a href="Sslconf.html#TYPEt">t</a> -> ?section:string -> string -> string option</code></pre><div class="info ">
-<code class="code">conf_get_string ?conf ?section name</code> gets an optional value from a name.
+<code class="code">conf_get_string&nbsp;?conf&nbsp;?section&nbsp;name</code> gets an optional value from a name.
     A string option is returned.
     See Openssl <code class="code"><span class="constructor">NCONF_get_string</span>()</code>
     in <a href=" https://github.com/openssl/openssl/blob/master/crypto/conf/conf_lib.c"> conf_lib.c</a>.
@@ -476,13 +491,13 @@ Open (msg):
 
 
 <pre><span id="VALconf_get_section"><span class="keyword">val</span> conf_get_section</span> : <code class="type"><a href="Sslconf.html#TYPEt">t</a> -> string -> <a href="Sslconf.html#TYPEsection_stack">section_stack</a> option</code></pre><div class="info ">
-<code class="code">get_section conf section</code> gets an optional stack of name-value pairs.
+<code class="code">get_section&nbsp;conf&nbsp;section</code> gets an optional stack of name-value pairs.
     See Openssl function <code class="code"><span class="constructor">NCONF_get_section</span>()</code>
     in <a href=" https://github.com/openssl/openssl/blob/master/crypto/conf/conf_lib.c"> conf_lib.c</a>.
     A hash table with section keys in the config instance is searched
     for a section.
     If a stack is returned, and &lt;name&gt; is in a name-value pair on it, then
-    <code class="code">conf_get_string conf section name</code> will get its most recent value.<br>
+    <code class="code">conf_get_string&nbsp;conf&nbsp;section&nbsp;name</code> will get its most recent value.<br>
 </div>
 
 <pre><span id="VALsexp_of_stack"><span class="keyword">val</span> sexp_of_stack</span> : <code class="type"><a href="Sslconf.html#TYPEsection_stack">section_stack</a> -> Sexplib.Sexp.t</code></pre><div class="info ">
@@ -500,6 +515,4 @@ convert a config instance to an s-expression<br>
 <pre><span id="VALconf_of_sexp"><span class="keyword">val</span> conf_of_sexp</span> : <code class="type">Sexplib.Sexp.t -> <a href="Sslconf.html#TYPEt">t</a></code></pre><div class="info ">
 convert an s-expression to a config instance<br>
 </div>
-
-<pre><span class="keyword">module</span> <a href="Sslconf.Buf.html">Buf</a>: <code class="code"><span class="keyword">sig</span></code> <a href="Sslconf.Buf.html">..</a> <code class="code"><span class="keyword">end</span></code></pre>
-<pre><span class="keyword">module</span> <a href="Sslconf.Bio.html">Bio</a>: <code class="code"><span class="keyword">sig</span></code> <a href="Sslconf.Bio.html">..</a> <code class="code"><span class="keyword">end</span></code></pre></body></html>
+</body></html>
