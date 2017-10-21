@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Sslconf (sslconf.Sslconf)</title><link rel="stylesheet" href="../../odoc.css"/><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><meta name="generator" content="doc-ock-html v1.0.0-1-g1fc9bf0"/></head><body><nav id="top"><a href="../index.html">Up</a> &mdash; <span class="package">package <a href="../index.html">sslconf</a></span></nav><header><h1><span class="keyword">Module</span> <span class="module-path">Sslconf</span></h1></header><p>Module <code class="code">Sslconf</code>: a parser for Openssl config files.</p><p>Openssl config files are ubiquitous in books, in documentation,
+and in Stack Overflow answers.</p><p>Definition of X509 certificates in Openssl is usually done by
+Openssl config files.</p><p>This module reproduces the Openssl NCONF implementation.
+Openssl NCONF is part of the Openssl crypto library (-libcrypto).</p><p>This module attaches no semantics to the strings and stacks it
+returns. It is similar to Openssl NCONF in this way.</p><p>Openssl attaches semantics to hash tables returned by Openssl
+NCONF, <em>via</em> commands such as <em>openssl x509</em> or <em>openssl ca</em>.</p><p>This implementation uses standard OCaml hash tables and stacks.
+Some may view this as a weakness.
+Openssl's NCONF implementation draws on custom hash tables and
+stacks defined in Openssl's crypto library.</p><p>Openssl code:
+<a href="https://github.com/openssl/openssl/blob/master/include/openssl/conf.h">conf.h</a><a href="https://github.com/openssl/openssl/blob/master/crypto/conf/conf_def.c">conf_def.c</a><a href="https://github.com/openssl/openssl/blob/master/crypto/conf/conf_api.c">conf_api.c</a><a href="https://github.com/openssl/openssl/blob/master/crypto/conf/conf_lib.c">conf_lib.c</a><a href="https://github.com/openssl/openssl/blob/master/crypto/bio/bss_fd.c">bss_fd.c</a></p><h2>Parser Overview</h2><p>Lines recognized by the parser are:
+</p><ul><li><p>comment lines, i.e.,
+</p><ul><li>empty, or all whitespace;</li><li>(Win32 only) a semicolon (<code class="code">';'</code>) before non-white-space; or</li><li>whitespace, then a hash char (<code class="code">'#'</code>), then arbitrary data;</li></ul></li><li><p>section lines, i.e.,
+</p><ul><li>a (<code class="code">&quot;[&lt;section&gt;]&quot;</code>) string inside square brackets; or</li></ul></li><li><p>value lines, i.e.,
+</p><ul><li>a (<code class="code">&quot;&lt;name&gt; = &lt;value&gt;&quot;</code>) assignment.</li></ul></li></ul><p>Openssl config file documentation:
+<a href="https://www.openssl.org/docs/manmaster/man5/config.html">config.html</a></p><p>The Openssl config file documentation is enough for most users, but
+is not a complete specification.</p><p>What follows is detail for mainainers.</p><h2>Detail First Pass - Line Continuation Chars</h2><p>If the parser sees an escape char (<code class="code">'\\'</code>) at the end of a line, it
+combines the line with the next line.</p><p>The escape char may itself be escaped. If excaped, the escape char
+loses its special meaning as a line continuation mark.</p><h3>Bounded Reads and Continuation Chars</h3><p>The parser reads up to a newline, or a maximum length if no newline
+is found. If no newline is found, the parser does another read,
+and so on, until a newline is found or end of file is is detected.</p><p>The max number of characters the parser reads in one read is 510.
+This number is dictated by a need for C code to put null bytes in a
+512 byte buffer.</p><p>This implementation follows the 510 char rule, so a config file
+valid in Openssl will still be valid here.</p><p>If the parser sees an escape char (<code class="code">'\\'</code>) at the end of a read, it
+will apply line continuation logic -- even if a newline is not seen
+at the end.</p><p>Line continuation characters are skipped over.</p><h3>Line number error reporting</h3><p>When there is an error, the line number reported is the line number in the
+file. This implementation also reports the column where an error is seen.
+Line numbers and columns reported are 1-based, so the first line is line 1
+and the first column is column 1.</p><h2>Comment lines</h2><p>A comment line is either an empty line, a line of all whitespace,
+or whitespace followed by a hash char followed by anything.</p><p>Comments are not saved.</p><p>In Win32 only, a line starting with a semicolon is also a comment.</p><p>The end of a value line may have a comment.
+These comments start with a hash char.
+Any text up to end of line can follow the hash char.</p><h2>Section lines</h2><p>A section line has a (<code class="code">&quot;[&lt;section&gt;]&quot;</code>) string surrounded by square brackets.
+After whitespace is trimmed from both ends, the string names
+a section.</p><p>A section may contain alphanumerics, underscores, punctuation,
+or whitespace.</p><p>Alphanumerics are any letter (from <code class="code">'a'</code> to <code class="code">z</code> or <code class="code">'A'</code> to <code class="code">'Z'</code>)
+or a number (from <code class="code">'0'</code> to <code class="code">'9'</code>).</p><p>Underscores are one or more underscore ('_') characters.</p><p>Punctuation is one or more of the following characters:
+(<code class="code">'!'</code>, <code class="code">'.'</code>, <code class="code">'%'</code>, <code class="code">'&amp;'</code>, <code class="code">'*'</code>, <code class="code">'+'</code>, <code class="code">';'</code>,
+<code class="code">'?'</code>, <code class="code">'@'</code>, <code class="code">'^'</code>, <code class="code">'~'</code>, <code class="code">'|'</code>, or <code class="code">'-'</code>).</p><p>A section may also contain <em>escaped</em> characters.
+An escaped character immediately follows an escape (<code class="code">'\\'</code>) char.
+Any character can be an escaped character.</p><p>If an escaped character is (<code class="code">'r'</code>, <code class="code">'n'</code>, <code class="code">'b'</code>, or <code class="code">'t'</code>), it
+is translated into a whitespace char (<code class="code">&quot;\r&quot;, &quot;\n&quot;, &quot;\b&quot;, or &quot;\t&quot;</code>).
+Otherwise, it is retained <em>as is</em>.</p><p>Escape chars are stripped out from a section name. Escaped chars
+appear in section keys as if they were not escaped.</p><p>The section in a section line becomes a default section
+for lines which follow.
+It remains the default until a next section line is read.</p><h2>Value lines</h2><p>A line with a a (<code class="code">&quot;&lt;name&gt; = &lt;value&gt;&quot;</code>) assignment.
+i.e., a name, an equal sign, and a value, is a value line.
+A value line assigns a value to a name.</p><h3>Names</h3><p>Lexical rules for a name (qualified or unqualified) are more
+restrictive than for a section in a section line.</p><p>Whitespace is trimmed from both ends of a name.</p><p>A name may contain alphanumerics, underscores, and punctuation.
+A name may not contain whitespace.</p><p>As with section names, escaped characters are allowed.
+An escaped character immediately follows an escape (<code class="code">'\\'</code>) char.
+Any character may be an escaped character.</p><p>Unlike the case of section names, escape chars are not stripped.
+An escape char goes in the hash table as part of a name.</p><p>A name can be qualified or unqualified. A qualified name splits
+into two parts, separated by a two-colon string (<code class="code">&quot;::&quot;</code>). The first
+part of a qualified name is the section; the second part is the
+name. An unqualified name belongs to the current default section.</p><p>If the section of a qualified name is not in the hash table, a
+new entry for the section is added.</p><h3>Values</h3><p>A value is a concatenated sequence of parts. It starts with the
+first non-whitespace character after the equal sign on a value line.</p><p>A part is one of three kinds:
+</p><ul><li>wrapped by double or single quotes;</li><li>a name substitution; or</li><li>regular text.</li></ul><p>Whitespace is stripped from the start and end of a value. Hence,
+whitespace following the equal sign, and whitespace to the end of
+a line, or up to a comment hash char if present, is ignored.
+A value starts and ends with a non-whitespace value, unless its
+first or last value was escaped <em>via</em> an escape (<code class="code">'\\'</code>) char.</p><h4>Quote wrapped parts</h4><p>Unix and Cygwin use default quote wrapping.</p><p>Default quote wrapped parts accept any character <em>as is</em>, and
+also allow quotes if preceded immediately by escape chars.</p><p>Escape chars and
+the quotes which wrap quote surrounded parts
+are stripped.</p><p>Win32 uses double quote wrapping.</p><p>Double quote wrapped parts accept any character <em>as is</em>.
+Double quotes normally end a double quote wrapped string.
+However, if two double quotes appear next to each other,
+one of them is added, the other is stripped, and the double
+quote string continues.</p><p>Double quotes which wrap double quote surrounded parts are
+stripped.</p><h4>Name substitution</h4><p>Name substitution starts with a (<code class="code">'$'</code>) character.
+The (<code class="code">'$'</code>) character should be followed by a name.
+The name may be optionally wrapped
+by parentheses (<code class="code">&quot;()&quot;</code>) or curly brackets (<code class="code">&quot;{}&quot;</code>).
+The <code class="code">subst</code> evaluator replaces
+the (<code class="code">'$'</code>), the optional wrapping, and the name
+with the value corresponding to the name and its section.</p><p>If the section is not (<code class="code">&quot;ENV&quot;</code>),
+a value is found from a hashtable with section+name keys.
+If the section is (<code class="code">&quot;ENV&quot;</code>),
+a value is found from the process environment.</p><p>If substitution fails, the parser returns an error,
+It reports that no value could be found for the name.</p><p>A name given for name substitution may only contain
+alphanumeric or underscore characters.
+It may not contain punctuation or whitespace,
+unless these are escaped <em>via</em> an escape (<code class="code">'\\'</code>) character.
+If an escaped character is in a name,
+its escape char is <em>retained</em>,
+along with the escaped character in the name.</p><h4>Regular value text, i.e., unwrapped parts</h4><p>Regular text accepts any character other than
+single quotes,
+double quotes, or
+the (<code class="code">'$'</code>) substitution character.</p><p>It may still have
+</p><ul><li>escaped characters; or</li><li>hash chars, for comments to end of line.</li></ul><h5>Escaped chars in regular text</h5><p>Regular text can have escaped characters.
+An escaped character immediately follows an escape (<code class="code">'\\'</code>) char.</p><p>If an escaped character is (<code class="code">'r'</code>, <code class="code">'n'</code>, <code class="code">'b'</code>, or <code class="code">'t'</code>), it
+is translated into a whitespace char (<code class="code">&quot;\r&quot;, &quot;\n&quot;, &quot;\b&quot;, or &quot;\t&quot;</code>).
+If it is not one of these characters, it is retained <em>as is</em>.</p><p>The special meanings of escaped characters are cancelled. For
+example, one can precede a double quote by an escape char, to
+cancel its usual meaning of starting a quote-wrapped part.</p><p>Escape chars are stripped. They don't appear in hash table values.
+Escaped characters remain.</p><h5>Hash chars in regular text start comments to end of line</h5><p>An unescaped hash (<code class="code">'#'</code>) char starts a comment to end of line.
+Any data following the hash char, up to the end of a line, is ignored.</p><h5>Non-special chars in regular text</h5><p>Characters not belonging to wrapped segments or name substitutions
+can be any character.
+For example, whitespace can occur in the middle of a value.</p><div class="spec module" id="module-Buf"><a href="#module-Buf" class="anchor"></a><div class="def module"><code><span class="keyword">module </span><a href="Buf/index.html">Buf</a> : <span class="keyword">sig</span> ... <span class="keyword">end</span></code></div><div class="doc"></div></div><div class="spec module" id="module-Bio"><a href="#module-Bio" class="anchor"></a><div class="def module"><code><span class="keyword">module </span><a href="Bio/index.html">Bio</a> : <span class="keyword">sig</span> ... <span class="keyword">end</span></code></div><div class="doc"></div></div><div class="spec type" id="type-t"><a href="#type-t" class="anchor"></a><div class="def type"><code><span class="keyword">type </span>t</code><code></code><code></code></div><div class="doc"><p>Sslconf type</p></div></div><div class="spec val" id="val-create"><a href="#val-create" class="anchor"></a><div class="def val"><code><span class="keyword">val </span>create : unit <span class="keyword">&#8209;&gt;</span> <a href="index.html#type-t">t</a></code></div><div class="doc"><p>Initialize an Sslconf instance</p></div></div><div class="spec val" id="val-nbits"><a href="#val-nbits" class="anchor"></a><div class="def val"><code><span class="keyword">val </span>nbits : int option Pervasives.ref</code></div><div class="doc"><p><code class="code">FOR TESTING ONLY</code> Limits buffer allocated memory to a max bit length.</p></div></div><div class="spec type" id="type-error"><a href="#type-error" class="anchor"></a><div class="def type"><code><span class="keyword">type </span>error</code><code></code><code><span class="keyword"> = </span></code><table class="variant"><tr id="type-error.Open" class="anchored"><td class="def constructor"><a href="#type-error.Open" class="anchor"></a><code><span class="keyword">| </span></code><code><span class="constructor">Open</span><span class="keyword"> of </span>string</code></td></tr><tr id="type-error.Extend" class="anchored"><td class="def constructor"><a href="#type-error.Extend" class="anchor"></a><code><span class="keyword">| </span></code><code><span class="constructor">Extend</span><span class="keyword"> of </span>string<span class="keyword"> * </span>int<span class="keyword"> * </span>int<span class="keyword"> * </span>int</code></td></tr><tr id="type-error.Parse" class="anchored"><td class="def constructor"><a href="#type-error.Parse" class="anchor"></a><code><span class="keyword">| </span></code><code><span class="constructor">Parse</span><span class="keyword"> of </span>string<span class="keyword"> * </span>int<span class="keyword"> * </span>int<span class="keyword"> * </span>string<span class="keyword"> * </span>string</code></td><td class="doc"><p>(** Open (msg):
+</p><ul><li>open failure message</li></ul><p>
+Extend (msg nbits max_length max_alloc):
+</p><ul><li>failure message;</li><li>number of bits allowed in buffer size;</li><li>requested new length of buffer;</li><li>allocation limit of buffer size.</li></ul><p>
+Parse (file lineno col proc msg):
+</p><ul><li>file name;</li><li>line number where error was seen;</li><li>column position where error was seen;</li><li>procedure name in which error was seen;</li><li>error message.</li></ul><p> *)</p></td></tr></table><code></code></div><div class="doc"></div></div><div class="spec val" id="val-error_to_string"><a href="#val-error_to_string" class="anchor"></a><div class="def val"><code><span class="keyword">val </span>error_to_string : <a href="index.html#type-error">error</a> <span class="keyword">&#8209;&gt;</span> string</code></div><div class="doc"><p><code class="code">error_to_string error</code> converts an error to a user-readable string.</p></div></div><div class="spec val" id="val-conf_load_file"><a href="#val-conf_load_file" class="anchor"></a><div class="def val"><code><span class="keyword">val </span>conf_load_file : <a href="index.html#type-t">t</a> <span class="keyword">&#8209;&gt;</span> string <span class="keyword">&#8209;&gt;</span> (unit, <a href="index.html#type-error">error</a>) Pervasives.result</code></div><div class="doc"><p><code class="code">conf_load_file conf filename</code> loads a file into a <a href="index.html#type-t">t</a> instance.
+The error instance describes only the first failure found.</p></div></div><div class="spec val" id="val-conf_get_string"><a href="#val-conf_get_string" class="anchor"></a><div class="def val"><code><span class="keyword">val </span>conf_get_string : ?&#8288;conf:<a href="index.html#type-t">t</a> <span class="keyword">&#8209;&gt;</span> ?&#8288;section:string <span class="keyword">&#8209;&gt;</span> string <span class="keyword">&#8209;&gt;</span> string option</code></div><div class="doc"><p><code class="code">conf_get_string ?conf ?section name</code> gets an optional value from a name.
+A string option is returned.
+See Openssl <code class="code">NCONF_get_string()</code>
+in <a href="https://github.com/openssl/openssl/blob/master/crypto/conf/conf_lib.c">conf_lib.c</a>.
+If a config instance is provided,
+its hash table with section+name keys is searched.
+If no config instance is provided, the process environment is searched.
+If a section is provided, then:
+</p><ul><li>if the section is <code class="code">&quot;ENV&quot;</code>, the process environment is searched.</li><li>else the section and name are made into a pair,
+and the pair is searched for in the hash table.</li></ul><p>
+If no section is provided, or the search in a provided section fails,
+then section &quot;default&quot; is used with the name.</p></div></div><div class="spec type" id="type-section_stack"><a href="#type-section_stack" class="anchor"></a><div class="def type"><code><span class="keyword">type </span>section_stack</code><code><span class="keyword"> = </span>(string<span class="keyword"> * </span>string) Stack.t</code><code></code></div><div class="doc"></div></div><div class="spec val" id="val-conf_get_section"><a href="#val-conf_get_section" class="anchor"></a><div class="def val"><code><span class="keyword">val </span>conf_get_section : <a href="index.html#type-t">t</a> <span class="keyword">&#8209;&gt;</span> string <span class="keyword">&#8209;&gt;</span> <a href="index.html#type-section_stack">section_stack</a> option</code></div><div class="doc"><p><code class="code">get_section conf section</code> gets an optional stack of name-value pairs.
+See Openssl function <code class="code">NCONF_get_section()</code>
+in <a href="https://github.com/openssl/openssl/blob/master/crypto/conf/conf_lib.c">conf_lib.c</a>.
+A hash table with section keys in the config instance is searched
+for a section.
+If a stack is returned, and &lt;name&gt; is in a name-value pair on it, then
+<code class="code">conf_get_string conf section name</code> will get its most recent value.</p></div></div><div class="spec val" id="val-sexp_of_stack"><a href="#val-sexp_of_stack" class="anchor"></a><div class="def val"><code><span class="keyword">val </span>sexp_of_stack : <a href="index.html#type-section_stack">section_stack</a> <span class="keyword">&#8209;&gt;</span> Sexplib.Sexp.t</code></div><div class="doc"><p>convert a config instance section stack to an s-expression</p></div></div><div class="spec val" id="val-stack_of_sexp"><a href="#val-stack_of_sexp" class="anchor"></a><div class="def val"><code><span class="keyword">val </span>stack_of_sexp : Sexplib.Sexp.t <span class="keyword">&#8209;&gt;</span> <a href="index.html#type-section_stack">section_stack</a></code></div><div class="doc"><p>convert an s-expression to a config instance section stack</p></div></div><div class="spec val" id="val-sexp_of_conf"><a href="#val-sexp_of_conf" class="anchor"></a><div class="def val"><code><span class="keyword">val </span>sexp_of_conf : <a href="index.html#type-t">t</a> <span class="keyword">&#8209;&gt;</span> Sexplib.Sexp.t</code></div><div class="doc"><p>convert a config instance to an s-expression</p></div></div><div class="spec val" id="val-conf_of_sexp"><a href="#val-conf_of_sexp" class="anchor"></a><div class="def val"><code><span class="keyword">val </span>conf_of_sexp : Sexplib.Sexp.t <span class="keyword">&#8209;&gt;</span> <a href="index.html#type-t">t</a></code></div><div class="doc"><p>convert an s-expression to a config instance</p></div></div></body></html>
