@@ -11,10 +11,9 @@
           <span class="dirname">lib/</span>sslconf.ml
         </a>
       </h1>
-      <h2>99.45%</h2>
+      <h2>100.00%</h2>
     </div>
     <div id="navbar">
-      <span class="unvisited" style="top:97.72%"></span>
     </div>
     <div id="report">
       <div id="lines-layer">
@@ -920,7 +919,7 @@
 <a id="L899"></a><span > </span>
 <a id="L900"></a><span > </span>
 <a id="L901"></a><span class="visited"> </span>
-<a id="L902"></a><span class="unvisited"> </span>
+<a id="L902"></a><span class="visited"> </span>
 <a id="L903"></a><span > </span>
 <a id="L904"></a><span class="visited"> </span>
 <a id="L905"></a><span > </span>
@@ -2216,7 +2215,7 @@ let conf_get_string ?conf ?section name =
 
 (* call here only with a section hash table ! *)
 let get_section ht section = 
-  <span data-count="88">t</span>ry Some (Hashtbl.find ht section) with <span data-count="3">N</span>ot_found -&gt; None
+  <span data-count="88">t</span>ry Some (Hashtbl.find ht section) with <span data-count="2">N</span>ot_found -&gt; None
 
 let conf_get_section conf section =
   <span data-count="3">g</span>et_section conf.ht_sect section
@@ -2739,8 +2738,8 @@ open Sexplib.Std
 
 (* conversion to / from sexp *)
 
-<span data-count="14">t</span>ype string_pair = <span data-count="448">s</span>tring * string [@@deriving sexp]
-<span data-count="95">t</span>ype spl = string_pair list [@@deriving sexp]
+<span data-count="14">t</span>ype string_pair = <span data-count="472">s</span>tring * string [@@deriving sexp]
+<span data-count="98">t</span>ype spl = string_pair list [@@deriving sexp]
 <span data-count="14">t</span>ype hkv = <span data-count="220">s</span>tring_pair * string [@@deriving sexp]
 <span data-count="61">t</span>ype hkvl = hkv list [@@deriving sexp]
 <span data-count="14">t</span>ype hskv = <span data-count="320">s</span>tring * spl [@@deriving sexp]
@@ -2748,7 +2747,7 @@ open Sexplib.Std
 <span data-count="14">t</span>ype hs_h = <span data-count="188">h</span>skvl * hkvl [@@deriving sexp]
 
 let hfold h = <span data-count="46">l</span>et f k v l = <span data-count="54">(</span>k, v) :: l in <span data-count="46">H</span>ashtbl.fold f h []
-and sfold stk = <span data-count="79">l</span>et f l e = <span data-count="56">e</span> :: l in <span data-count="79">S</span>tack.fold f [] stk
+and sfold stk = <span data-count="81">l</span>et f l e = <span data-count="60">e</span> :: l in <span data-count="81">S</span>tack.fold f [] stk
 let hsfold h = <span data-count="46">l</span>et f k v l = <span data-count="78">(</span>k, sfold v) :: l in <span data-count="46">H</span>ashtbl.fold f h []
 let htfold (hs, h) = <span data-count="46">h</span>sfold hs, hfold h
 
@@ -2758,10 +2757,10 @@ let hunfold l =
   <span data-count="1">L</span>ist.iter f l;
   <span data-count="1">h</span>
 and sunfold kvl =
-  <span data-count="2">l</span>et stack = <span data-count="2">S</span>tack.create () in
-  <span data-count="2">l</span>et f kv = <span data-count="1">S</span>tack.push kv stack in
-  <span data-count="2">L</span>ist.iter f kvl;
-  <span data-count="2">s</span>tack
+  <span data-count="3">l</span>et stack = <span data-count="3">S</span>tack.create () in
+  <span data-count="3">l</span>et f kv = <span data-count="3">S</span>tack.push kv stack in
+  <span data-count="3">L</span>ist.iter f kvl;
+  <span data-count="3">s</span>tack
 let hsunfold l =
   <span data-count="1">l</span>et h = <span data-count="1">H</span>ashtbl.create ~random:false 10 in
   <span data-count="1">l</span>et f (k, kvl) = <span data-count="2">H</span>ashtbl.add h k (sunfold kvl) in
@@ -2771,8 +2770,8 @@ let htunfold (hsl, hl) = <span data-count="1">h</span>sunfold hsl, hunfold hl
 
 type section_stack = (string * string) Stack.t
 
-let sexp_of_stack stack = <span data-count="1">s</span>fold stack |&gt; <span data-count="1">s</span>exp_of_spl
-let stack_of_sexp sexp = <span data-count="0">s</span>pl_of_sexp sexp |&gt; <span data-count="0">s</span>unfold
+let sexp_of_stack stack = <span data-count="3">s</span>fold stack |&gt; <span data-count="3">s</span>exp_of_spl
+let stack_of_sexp sexp = <span data-count="1">s</span>pl_of_sexp sexp |&gt; <span data-count="1">s</span>unfold
 
 let sexp_of_conf conf = <span data-count="46">h</span>tfold (conf.ht_sect, conf.ht) |&gt; <span data-count="46">s</span>exp_of_hs_h
 let conf_of_sexp sexp =
@@ -2797,7 +2796,7 @@ let conf_of_sexp sexp =
 </pre>
       </div>
     </div>
-    <div id="footer">Generated on 2017-10-22 07:43:18 by <a href="https://github.com/aantron/bisect_ppx">Bisect_ppx</a> 1.3.1</div>
+    <div id="footer">Generated on 2017-10-22 08:00:15 by <a href="https://github.com/aantron/bisect_ppx">Bisect_ppx</a> 1.3.1</div>
     <script src="coverage.js"></script>
   </body>
 </html>
