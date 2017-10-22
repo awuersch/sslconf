@@ -186,46 +186,46 @@
 type t = int * int * Bytes.t
 
 (* an empty buffer (length 0, max 0) *)
-let empty nbits = <span data-count="216">n</span>bits, 0, Bytes.empty
+let empty nbits = <span data-count="219">n</span>bits, 0, Bytes.empty
 
 (* to get a Bytes.buffer from a Buf.t *)
-let data (_, _, data) = <span data-count="229">d</span>ata
+let data (_, _, data) = <span data-count="232">d</span>ata
 
 (* grow buffer to allow for a given length, and set to null characters *)
 let extend (nbits, length, data) len =
-  <span data-count="232">i</span>f len &lt;= length
+  <span data-count="235">i</span>f len &lt;= length
   then
     <span data-count="1">O</span>k (nbits, len, data)
   else
-    <span data-count="231">l</span>et allocated = <span data-count="231">B</span>ytes.length data in
-    <span data-count="231">l</span>et result =
-      <span data-count="231">i</span>f len &lt;= allocated
+    <span data-count="234">l</span>et allocated = <span data-count="234">B</span>ytes.length data in
+    <span data-count="234">l</span>et result =
+      <span data-count="234">i</span>f len &lt;= allocated
       then <span data-count="7">O</span>k data
-      else <span data-count="224">i</span>f nbits &lt; 3
+      else <span data-count="227">i</span>f nbits &lt; 3
       then <span data-count="1">E</span>rror ("Invalid_argument: too few bits", nbits, len, 0)
       else
         (*
           standard expansion is (len+3)/3*4.
           limit_before_expansion is max n such that (n+3)/3*4 &lt; 2**31.
          *)
-        <span data-count="223">l</span>et limit = <span data-count="223">(</span>1 lsl (nbits - 2)) * 3 - 4 in
-        <span data-count="223">i</span>f len &gt; limit
+        <span data-count="226">l</span>et limit = <span data-count="226">(</span>1 lsl (nbits - 2)) * 3 - 4 in
+        <span data-count="226">i</span>f len &gt; limit
         then
           <span data-count="2">l</span>et msg = <span data-count="2">"</span>len_exceeds_limit" in
           <span data-count="2">E</span>rror (msg, nbits, len, limit)
         else
-          <span data-count="221">l</span>et to_allocate = <span data-count="221">(</span>len + 3) / 3 * 4 in
-          <span data-count="221">t</span>ry
+          <span data-count="224">l</span>et to_allocate = <span data-count="224">(</span>len + 3) / 3 * 4 in
+          <span data-count="224">t</span>ry
             Ok (Bytes.extend data 0 (to_allocate - allocated))
           with
             Invalid_argument s -&gt;                    (*BISECT-IGNORE*)
             let msg = "invalid_argument: " ^ s in  (*BISECT-IGNORE*)
             Error (msg, nbits, len, limit)         (*BISECT-IGNORE*)
     in
-    <span data-count="231">m</span>atch result with
-      <span data-count="228">O</span>k data -&gt;
+    <span data-count="234">m</span>atch result with
+      <span data-count="231">O</span>k data -&gt;
       Bytes.fill data length (len - length) '\x00';
-      <span data-count="228">O</span>k (nbits, len, data)
+      <span data-count="231">O</span>k (nbits, len, data)
     | <span data-count="3">E</span>rror (msg, nbits, len, limit) -&gt; Error (msg, nbits, len, limit)
 
 (*---------------------------------------------------------------------------
@@ -246,7 +246,7 @@ let extend (nbits, length, data) len =
 </pre>
       </div>
     </div>
-    <div id="footer">Generated on 2017-10-22 04:18:57 by <a href="https://github.com/aantron/bisect_ppx">Bisect_ppx</a> 1.3.1</div>
+    <div id="footer">Generated on 2017-10-22 04:39:48 by <a href="https://github.com/aantron/bisect_ppx">Bisect_ppx</a> 1.3.1</div>
     <script src="coverage.js"></script>
   </body>
 </html>

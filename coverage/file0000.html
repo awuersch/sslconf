@@ -11,25 +11,10 @@
           <span class="dirname">lib/</span>sslconf.ml
         </a>
       </h1>
-      <h2>93.07%</h2>
+      <h2>99.45%</h2>
     </div>
     <div id="navbar">
-      <span class="unvisited" style="top:95.67%"></span>
-      <span class="unvisited" style="top:95.77%"></span>
-      <span class="unvisited" style="top:95.88%"></span>
-      <span class="unvisited" style="top:95.99%"></span>
-      <span class="unvisited" style="top:96.21%"></span>
-      <span class="unvisited" style="top:96.32%"></span>
-      <span class="unvisited" style="top:96.42%"></span>
-      <span class="unvisited" style="top:96.53%"></span>
-      <span class="unvisited" style="top:96.75%"></span>
-      <span class="unvisited" style="top:96.86%"></span>
-      <span class="unvisited" style="top:96.97%"></span>
-      <span class="unvisited" style="top:97.07%"></span>
-      <span class="unvisited" style="top:97.18%"></span>
       <span class="unvisited" style="top:97.72%"></span>
-      <span class="unvisited" style="top:98.16%"></span>
-      <span class="unvisited" style="top:98.27%"></span>
     </div>
     <div id="report">
       <div id="lines-layer">
@@ -916,21 +901,21 @@
 <a id="L880"></a><span class="visited"> </span>
 <a id="L881"></a><span > </span>
 <a id="L882"></a><span > </span>
-<a id="L883"></a><span class="unvisited"> </span>
-<a id="L884"></a><span class="unvisited"> </span>
-<a id="L885"></a><span class="unvisited"> </span>
-<a id="L886"></a><span class="unvisited"> </span>
+<a id="L883"></a><span class="visited"> </span>
+<a id="L884"></a><span class="visited"> </span>
+<a id="L885"></a><span class="visited"> </span>
+<a id="L886"></a><span class="visited"> </span>
 <a id="L887"></a><span > </span>
-<a id="L888"></a><span class="unvisited"> </span>
-<a id="L889"></a><span class="unvisited"> </span>
-<a id="L890"></a><span class="unvisited"> </span>
-<a id="L891"></a><span class="unvisited"> </span>
+<a id="L888"></a><span class="visited"> </span>
+<a id="L889"></a><span class="visited"> </span>
+<a id="L890"></a><span class="visited"> </span>
+<a id="L891"></a><span class="visited"> </span>
 <a id="L892"></a><span > </span>
-<a id="L893"></a><span class="unvisited"> </span>
-<a id="L894"></a><span class="unvisited"> </span>
-<a id="L895"></a><span class="unvisited"> </span>
-<a id="L896"></a><span class="unvisited"> </span>
-<a id="L897"></a><span class="unvisited"> </span>
+<a id="L893"></a><span class="visited"> </span>
+<a id="L894"></a><span class="visited"> </span>
+<a id="L895"></a><span class="visited"> </span>
+<a id="L896"></a><span class="visited"> </span>
+<a id="L897"></a><span class="visited"> </span>
 <a id="L898"></a><span > </span>
 <a id="L899"></a><span > </span>
 <a id="L900"></a><span > </span>
@@ -939,8 +924,8 @@
 <a id="L903"></a><span > </span>
 <a id="L904"></a><span class="visited"> </span>
 <a id="L905"></a><span > </span>
-<a id="L906"></a><span class="unvisited"> </span>
-<a id="L907"></a><span class="unvisited"> </span>
+<a id="L906"></a><span class="visited"> </span>
+<a id="L907"></a><span class="visited"> </span>
 <a id="L908"></a><span > </span>
 <a id="L909"></a><span > </span>
 <a id="L910"></a><span > </span>
@@ -2183,12 +2168,12 @@ type t = trec
 (* sslconf type *)
 
 let create () =
-  <span data-count="74">l</span>et ht_sect = <span data-count="74">H</span>ashtbl.create ~random:false 10 in
-  <span data-count="74">l</span>et ht = <span data-count="74">H</span>ashtbl.create ~random:false 10 in
-  <span data-count="74">l</span>et stack = <span data-count="74">S</span>tack.create () in
-  <span data-count="74">l</span>et section = <span data-count="74">"</span>default" in
-  <span data-count="74">H</span>ashtbl.add ht_sect section stack;
-  <span data-count="74">{</span> ht_sect; ht }
+  <span data-count="75">l</span>et ht_sect = <span data-count="75">H</span>ashtbl.create ~random:false 10 in
+  <span data-count="75">l</span>et ht = <span data-count="75">H</span>ashtbl.create ~random:false 10 in
+  <span data-count="75">l</span>et stack = <span data-count="75">S</span>tack.create () in
+  <span data-count="75">l</span>et section = <span data-count="75">"</span>default" in
+  <span data-count="75">H</span>ashtbl.add ht_sect section stack;
+  <span data-count="75">{</span> ht_sect; ht }
 
 (* call here only with a section+name hash table ! *)
 let find_option_section_name ht section_name = 
@@ -2231,7 +2216,7 @@ let conf_get_string ?conf ?section name =
 
 (* call here only with a section hash table ! *)
 let get_section ht section = 
-  <span data-count="84">t</span>ry Some (Hashtbl.find ht section) with <span data-count="2">N</span>ot_found -&gt; None
+  <span data-count="85">t</span>ry Some (Hashtbl.find ht section) with <span data-count="2">N</span>ot_found -&gt; None
 
 let conf_get_section conf section =
   <span data-count="2">g</span>et_section conf.ht_sect section
@@ -2326,11 +2311,11 @@ let getline ic =
 
      return continued_line * start_offsets
    *)
-  <span data-count="216">l</span>et rec loop ic buf starts start =
-    <span data-count="232">m</span>atch Buf.extend buf (start + max_length) with
-    | <span data-count="229">O</span>k buf -&gt;
-      let data = <span data-count="229">B</span>uf.data buf in
-      <span data-count="229">l</span>et n = <span data-count="229">B</span>io.gets ic data start max_length in
+  <span data-count="219">l</span>et rec loop ic buf starts start =
+    <span data-count="235">m</span>atch Buf.extend buf (start + max_length) with
+    | <span data-count="232">O</span>k buf -&gt;
+      let data = <span data-count="232">B</span>uf.data buf in
+      <span data-count="232">l</span>et n = <span data-count="232">B</span>io.gets ic data start max_length in
       (*
          - debug output
       if n = max_length &amp;&amp; start = 0
@@ -2345,8 +2330,8 @@ let getline ic =
         else ()
       else ();
        *)
-      <span data-count="229">i</span>f <span data-count="229">s</span>tart = 0 &amp;&amp; <span data-count="215">n</span> = 0
-      then <span data-count="53">O</span>k EOF (* empty buffer and no newline seen === end of file *)
+      <span data-count="232">i</span>f <span data-count="232">s</span>tart = 0 &amp;&amp; <span data-count="218">n</span> = 0
+      then <span data-count="54">O</span>k EOF (* empty buffer and no newline seen === end of file *)
       else
         (* Strip continuation character and newline (LF or CRLF).
            Here, we are simpler than NCONF code.
@@ -2355,24 +2340,24 @@ let getline ic =
            That can't happen for us.
            Our "get" ([Bio.gets]) reads zero or one newline.
         *)
-        <span data-count="176">l</span>et line_length =
-          <span data-count="176">i</span>f n = 0
+        <span data-count="178">l</span>et line_length =
+          <span data-count="178">i</span>f n = 0
           then <span data-count="2">n</span>
-          else <span data-count="174">i</span>f Bytes.get data (start + n - 1) = '\n'
+          else <span data-count="176">i</span>f Bytes.get data (start + n - 1) = '\n'
           then
-            <span data-count="154">l</span>et strip_n =
-              <span data-count="154">i</span>f <span data-count="154">n</span> &gt; 1 &amp;&amp; <span data-count="145">B</span>ytes.get data (start + n - 2) = '\r'
+            <span data-count="156">l</span>et strip_n =
+              <span data-count="156">i</span>f <span data-count="156">n</span> &gt; 1 &amp;&amp; <span data-count="147">B</span>ytes.get data (start + n - 2) = '\r'
               then <span data-count="3">2</span>
-              else <span data-count="151">1</span>
-            in <span data-count="154">n</span> - strip_n
+              else <span data-count="153">1</span>
+            in <span data-count="156">n</span> - strip_n
           else <span data-count="20">n</span>
         in
         (* end of line was seen *)
-        <span data-count="176">l</span>et eol_seen = <span data-count="176">l</span>ine_length != n in
+        <span data-count="178">l</span>et eol_seen = <span data-count="178">l</span>ine_length != n in
         (* a long line is a full read with no newline at its end *)
-        <span data-count="176">l</span>et long_line = <span data-count="352">n</span> = max_length &amp;&amp; <span data-count="8">n</span>ot eol_seen in
+        <span data-count="178">l</span>et long_line = <span data-count="356">n</span> = max_length &amp;&amp; <span data-count="8">n</span>ot eol_seen in
         (* seek start of next line *)
-        <span data-count="176">l</span>et start = <span data-count="176">s</span>tart + line_length in
+        <span data-count="178">l</span>et start = <span data-count="178">s</span>tart + line_length in
           (*
              Q: is an unescaped escape char at end of line?
              Then it's a continuation character.
@@ -2381,26 +2366,26 @@ let getline ic =
              In context of NCONF parsing, this isn't a harmful thing.
              So I'll allow it ... but it seems like a bug ...
            *)
-        <span data-count="176">l</span>et line_cont_seen =
-          <span data-count="352">s</span>tart != 0
-          &amp;&amp; <span data-count="334">B</span>ytes.get data (start - 1) = '\\'
+        <span data-count="178">l</span>et line_cont_seen =
+          <span data-count="356">s</span>tart != 0
+          &amp;&amp; <span data-count="338">B</span>ytes.get data (start - 1) = '\\'
           &amp;&amp; <span data-count="12">(</span><span data-count="12">s</span>tart = 1 || <span data-count="12">n</span>ot (Bytes.get data (start - 2) = '\\')) in
-        <span data-count="176">l</span>et start = <span data-count="176">i</span>f line_cont_seen then <span data-count="11">s</span>tart - 1 else <span data-count="165">s</span>tart in
+        <span data-count="178">l</span>et start = <span data-count="178">i</span>f line_cont_seen then <span data-count="11">s</span>tart - 1 else <span data-count="167">s</span>tart in
         (* if line continuation was seen, drop continuation char *)
-        <span data-count="176">i</span>f <span data-count="176">l</span>ong_line || <span data-count="168">l</span>ine_cont_seen
+        <span data-count="178">i</span>f <span data-count="178">l</span>ong_line || <span data-count="170">l</span>ine_cont_seen
         then
           <span data-count="16">l</span>et starts = <span data-count="16">i</span>f eol_seen then <span data-count="6">s</span>tart :: starts else <span data-count="10">s</span>tarts in
           (* if saw end of line, add start offset to line offsets *)
           <span data-count="16">l</span>oop ic buf starts start
         else
-          <span data-count="160">l</span>et line = <span data-count="160">B</span>ytes.sub_string data 0 start
-          and starts = <span data-count="160">L</span>ist.rev starts in
-          <span data-count="160">O</span>k (Line (line, starts))
+          <span data-count="162">l</span>et line = <span data-count="162">B</span>ytes.sub_string data 0 start
+          and starts = <span data-count="162">L</span>ist.rev starts in
+          <span data-count="162">O</span>k (Line (line, starts))
     | <span data-count="3">E</span>rror tuple -&gt; Error tuple
   in
-  <span data-count="216">l</span>et nbits = <span data-count="216">m</span>atch !nbits with <span data-count="207">N</span>one -&gt; default_nbits | <span data-count="9">S</span>ome i -&gt; i in
-  <span data-count="216">l</span>et buf = <span data-count="216">B</span>uf.empty nbits in
-  <span data-count="216">l</span>oop ic buf [] 0
+  <span data-count="219">l</span>et nbits = <span data-count="219">m</span>atch !nbits with <span data-count="207">N</span>one -&gt; default_nbits | <span data-count="12">S</span>ome i -&gt; i in
+  <span data-count="219">l</span>et buf = <span data-count="219">B</span>uf.empty nbits in
+  <span data-count="219">l</span>oop ic buf [] 0
 
 open Astring
 
@@ -2409,9 +2394,9 @@ open Astring
    side effect: a new base string is created.
  *)
 let finish_parse_loop acc data rem =
-  <span data-count="190">l</span>et open String.Sub in
-  let acc = <span data-count="190">L</span>ist.rev (data :: acc) in
-  <span data-count="190">c</span>oncat
+  <span data-count="192">l</span>et open String.Sub in
+  let acc = <span data-count="192">L</span>ist.rev (data :: acc) in
+  <span data-count="192">c</span>oncat
     acc (* new base string *)
 , rem
 
@@ -2467,10 +2452,10 @@ let parse_quote q s =
    span, include escaped characters, don't exclude escape chars.
  *)
 let span_with_escapes sat rem =
-  <span data-count="183">l</span>et open String.Sub in
+  <span data-count="185">l</span>et open String.Sub in
   let rec loop acc rem =
-    <span data-count="200">l</span>et data, rem = <span data-count="200">s</span>pan ~sat rem in
-    <span data-count="200">m</span>atch head rem with
+    <span data-count="202">l</span>et data, rem = <span data-count="202">s</span>pan ~sat rem in
+    <span data-count="202">m</span>atch head rem with
     | <span data-count="17">S</span>ome '\\' -&gt; (
         let rem = <span data-count="17">t</span>ail rem in
         <span data-count="17">m</span>atch head rem with
@@ -2484,19 +2469,19 @@ let span_with_escapes sat rem =
              -- always a char next, or char is continuation char at eol.
           *)
       )
-    | <span data-count="165">S</span>ome _ | <span data-count="18">N</span>one -&gt;
+    | <span data-count="167">S</span>ome _ | <span data-count="18">N</span>one -&gt;
       finish_parse_loop acc data rem
   in
-  <span data-count="183">l</span>oop [] rem
+  <span data-count="185">l</span>oop [] rem
 
 (*
    use cases: subst (1 time, is_an), parse_line (1 time, is_anp).
    parse a qualified or unqualified name, with different predicates
  *)
 let parse_name sat rem =
-  <span data-count="118">l</span>et open String.Sub in
-  let part, rem = <span data-count="118">s</span>pan_with_escapes sat rem in
-  <span data-count="118">m</span>atch head rem with
+  <span data-count="119">l</span>et open String.Sub in
+  let part, rem = <span data-count="119">s</span>pan_with_escapes sat rem in
+  <span data-count="119">m</span>atch head rem with
   | <span data-count="19">S</span>ome ':' -&gt; (
       let rem = <span data-count="19">t</span>ail rem in
       <span data-count="19">m</span>atch head rem with
@@ -2507,7 +2492,7 @@ let parse_name sat rem =
       | <span data-count="2">S</span>ome _ | <span data-count="1">N</span>one -&gt;
         Error (start_pos rem, "parse_name", "two-colon token not found")
     )
-  | <span data-count="94">S</span>ome _ | <span data-count="5">N</span>one -&gt; Ok (None, part, rem)
+  | <span data-count="95">S</span>ome _ | <span data-count="5">N</span>one -&gt; Ok (None, part, rem)
 
 (* substitute [Sslconf.get_string] result *)
 let subst ht section rem =
@@ -2565,11 +2550,11 @@ let translate_char = <span data-count="2">f</span>unction
  *)
 let parse_value ht section value =
   (* not escape char, double quote, single quote, dollar sign, hash char *)
-  <span data-count="136">l</span>et is_data = <span data-count="136">f</span>unction <span data-count="13">'</span>\\' | <span data-count="5">'</span>"' | <span data-count="2">'</span>\'' | <span data-count="22">'</span>$' | <span data-count="3">'</span>#' -&gt; false | <span data-count="405">_</span> -&gt; true in
-  <span data-count="136">l</span>et rec loop acc s =
-    <span data-count="170">l</span>et open String.Sub in
-    let data, rem = <span data-count="170">s</span>pan ~sat:is_data s in
-    <span data-count="170">m</span>atch head rem with
+  <span data-count="138">l</span>et is_data = <span data-count="138">f</span>unction <span data-count="13">'</span>\\' | <span data-count="5">'</span>"' | <span data-count="2">'</span>\'' | <span data-count="22">'</span>$' | <span data-count="3">'</span>#' -&gt; false | <span data-count="415">_</span> -&gt; true in
+  <span data-count="138">l</span>et rec loop acc s =
+    <span data-count="172">l</span>et open String.Sub in
+    let data, rem = <span data-count="172">s</span>pan ~sat:is_data s in
+    <span data-count="172">m</span>atch head rem with
     | Some (<span data-count="2">'</span>\'' | <span data-count="5">'</span>"' as quote) -&gt; (
         let f =
           <span data-count="7">i</span>f Sys.os_type = "Win32" (* Unix bisect can't go here *)
@@ -2599,18 +2584,18 @@ let parse_value ht section value =
         | <span data-count="14">O</span>k (value, rem) -&gt; loop (value :: data :: acc) rem
         | <span data-count="8">E</span>rror tuple -&gt; Error tuple
       )
-    | <span data-count="3">S</span>ome '#' | <span data-count="125">N</span>one -&gt;
-      let acc = <span data-count="128">L</span>ist.rev (data :: acc) in
-      <span data-count="128">O</span>k (drop ~rev:true ~sat:Char.Ascii.is_white (concat acc)) (* trim trailing space *)
+    | <span data-count="3">S</span>ome '#' | <span data-count="127">N</span>one -&gt;
+      let acc = <span data-count="130">L</span>ist.rev (data :: acc) in
+      <span data-count="130">O</span>k (drop ~rev:true ~sat:Char.Ascii.is_white (concat acc)) (* trim trailing space *)
     | Some _ -&gt; failwith "parse_value: pattern-match failure" (*BISECT-IGNORE*)
   in
-  <span data-count="136">l</span>oop [] value
+  <span data-count="138">l</span>oop [] value
 
 (* note - no special characters are here at all *)
 let is_punct = <span data-count="2">f</span>unction
   <span data-count="4">'</span>!' | <span data-count="4">'</span>.' | <span data-count="1">'</span>%' | <span data-count="1">'</span>&amp;' | <span data-count="1">'</span>*' | <span data-count="1">'</span>+' |
   <span data-count="2">'</span>;' | <span data-count="1">'</span>?' | <span data-count="1">'</span>@' | <span data-count="1">'</span>^' | <span data-count="1">'</span>~' | <span data-count="1">'</span>|' | <span data-count="1">'</span>-' -&gt; true
-| <span data-count="163">_</span> -&gt; false
+| <span data-count="165">_</span> -&gt; false
 
 (* see openssl crypto/conf/conf_def.c; section changes if ['['..']'] seen.
 
@@ -2628,28 +2613,28 @@ let is_punct = <span data-count="2">f</span>unction
    The position offset and procedure name show where an error was found.
  *)
 let parse_line ht_section ht section line =
-  <span data-count="160">l</span>et is_anp c = <span data-count="1208">C</span>har.Ascii.is_alphanum c || <span data-count="372">c</span> = '_' || <span data-count="183">i</span>s_punct c in
-  <span data-count="160">l</span>et is_anp_or_ws c = <span data-count="724">C</span>har.Ascii.is_white c || <span data-count="362">i</span>s_anp c in
-  <span data-count="160">l</span>et line = <span data-count="160">S</span>tring.sub line in
-  <span data-count="160">l</span>et open String.Sub in
-  let line = <span data-count="160">d</span>rop ~sat:Char.Ascii.is_white line in
-  <span data-count="160">m</span>atch head line with
+  <span data-count="162">l</span>et is_anp c = <span data-count="1240">C</span>har.Ascii.is_alphanum c || <span data-count="376">c</span> = '_' || <span data-count="185">i</span>s_punct c in
+  <span data-count="162">l</span>et is_anp_or_ws c = <span data-count="736">C</span>har.Ascii.is_white c || <span data-count="368">i</span>s_anp c in
+  <span data-count="162">l</span>et line = <span data-count="162">S</span>tring.sub line in
+  <span data-count="162">l</span>et open String.Sub in
+  let line = <span data-count="162">d</span>rop ~sat:Char.Ascii.is_white line in
+  <span data-count="162">m</span>atch head line with
   | <span data-count="1">S</span>ome '#' | <span data-count="14">N</span>one -&gt; Ok (section, ht_section, ht) (* comment *)
-  | <span data-count="49">S</span>ome '[' -&gt; (
-      let start = <span data-count="49">d</span>rop ~sat:Char.Ascii.is_white (tail line) in
-      <span data-count="49">l</span>et name, rem = <span data-count="49">s</span>pan_with_escapes is_anp_or_ws start in
-      <span data-count="49">m</span>atch head rem with
-      | <span data-count="46">S</span>ome ']' -&gt; (
+  | <span data-count="50">S</span>ome '[' -&gt; (
+      let start = <span data-count="50">d</span>rop ~sat:Char.Ascii.is_white (tail line) in
+      <span data-count="50">l</span>et name, rem = <span data-count="50">s</span>pan_with_escapes is_anp_or_ws start in
+      <span data-count="50">m</span>atch head rem with
+      | <span data-count="47">S</span>ome ']' -&gt; (
           match parse_value ht None name with
-          | <span data-count="46">O</span>k value -&gt; (
-              let section = <span data-count="46">t</span>o_string value in
-              <span data-count="46">l</span>et _ =
-                <span data-count="46">t</span>ry ignore (Hashtbl.find ht_section section)
-                with <span data-count="46">N</span>ot_found -&gt;
-                  let stack = <span data-count="46">S</span>tack.create () in
-                  <span data-count="46">H</span>ashtbl.add ht_section section stack
+          | <span data-count="47">O</span>k value -&gt; (
+              let section = <span data-count="47">t</span>o_string value in
+              <span data-count="47">l</span>et _ =
+                <span data-count="47">t</span>ry ignore (Hashtbl.find ht_section section)
+                with <span data-count="47">N</span>ot_found -&gt;
+                  let stack = <span data-count="47">S</span>tack.create () in
+                  <span data-count="47">H</span>ashtbl.add ht_section section stack
               in
-              <span data-count="46">O</span>k (section, ht_section, ht)
+              <span data-count="47">O</span>k (section, ht_section, ht)
             )
           | Error tuple -&gt; Error tuple (*BISECT-IGNORE*)
           (* [caller context] parse_value can't return Error here *)
@@ -2657,33 +2642,33 @@ let parse_line ht_section ht section line =
       | <span data-count="2">S</span>ome _ | <span data-count="1">N</span>one -&gt;
         Error (start_pos rem, "parse_line", "closing square bracket not found")
     )
-  | <span data-count="96">S</span>ome c -&gt; (
+  | <span data-count="97">S</span>ome c -&gt; (
       if Sys.os_type = "Win32" &amp;&amp; c == ';' (*BISECT-IGNORE*)
       then Ok (section, ht_section, ht) (*BISECT-IGNORE*)
            (* Unix bisect can't go here *)
-      else <span data-count="96">m</span>atch parse_name is_anp line with
-      | <span data-count="94">O</span>k (psection, name, rem) -&gt; (
-          let section = <span data-count="94">m</span>atch psection with <span data-count="3">S</span>ome s -&gt; s | <span data-count="91">N</span>one -&gt; section
-          and rem = <span data-count="94">d</span>rop ~sat:Char.Ascii.is_white rem in
-          <span data-count="94">m</span>atch head rem with
-          | <span data-count="90">S</span>ome '=' -&gt; (
-              let rem = <span data-count="90">t</span>ail rem in
-              <span data-count="90">l</span>et value = <span data-count="90">d</span>rop ~sat:Char.Ascii.is_white rem in
-              <span data-count="90">m</span>atch parse_value ht (Some section) value with
-              | <span data-count="82">O</span>k value -&gt; (
-                  let name = <span data-count="82">t</span>o_string name and value = <span data-count="82">t</span>o_string value in
-                  <span data-count="82">l</span>et v = <span data-count="82">(</span>name, value) in
-                  <span data-count="82">b</span>egin
+      else <span data-count="97">m</span>atch parse_name is_anp line with
+      | <span data-count="95">O</span>k (psection, name, rem) -&gt; (
+          let section = <span data-count="95">m</span>atch psection with <span data-count="3">S</span>ome s -&gt; s | <span data-count="92">N</span>one -&gt; section
+          and rem = <span data-count="95">d</span>rop ~sat:Char.Ascii.is_white rem in
+          <span data-count="95">m</span>atch head rem with
+          | <span data-count="91">S</span>ome '=' -&gt; (
+              let rem = <span data-count="91">t</span>ail rem in
+              <span data-count="91">l</span>et value = <span data-count="91">d</span>rop ~sat:Char.Ascii.is_white rem in
+              <span data-count="91">m</span>atch parse_value ht (Some section) value with
+              | <span data-count="83">O</span>k value -&gt; (
+                  let name = <span data-count="83">t</span>o_string name and value = <span data-count="83">t</span>o_string value in
+                  <span data-count="83">l</span>et v = <span data-count="83">(</span>name, value) in
+                  <span data-count="83">b</span>egin
                     match (get_section ht_section section) with
-                    | <span data-count="81">S</span>ome stack -&gt; Stack.push v stack
+                    | <span data-count="82">S</span>ome stack -&gt; Stack.push v stack
                     | <span data-count="1">N</span>one -&gt; (
                         let stack = <span data-count="1">S</span>tack.create () in
                         <span data-count="1">S</span>tack.push v stack;
                         <span data-count="1">H</span>ashtbl.add ht_section section stack
                       );
                   end;
-                  <span data-count="82">H</span>ashtbl.add ht (section, name) value;
-                  <span data-count="82">O</span>k (section, ht_section, ht)
+                  <span data-count="83">H</span>ashtbl.add ht (section, name) value;
+                  <span data-count="83">O</span>k (section, ht_section, ht)
                 )
               | <span data-count="8">E</span>rror tuple -&gt; Error tuple
             )
@@ -2726,73 +2711,73 @@ let error_to_string error =
 
 (* error report precision wrangling, mostly *)
 let conf_load_file conf filename =
-  <span data-count="74">m</span>atch (try Ok (open_in filename) with <span data-count="1">S</span>ys_error s -&gt; Error s) with
+  <span data-count="75">m</span>atch (try Ok (open_in filename) with <span data-count="1">S</span>ys_error s -&gt; Error s) with
   | <span data-count="1">E</span>rror s -&gt; Error (Open s)
-  | <span data-count="73">O</span>k ic -&gt;
+  | <span data-count="74">O</span>k ic -&gt;
     let rec loop lineno section ht_sect ht ic =
       (* line handler *)
-      <span data-count="216">m</span>atch getline ic with
-      | <span data-count="160">O</span>k (Line (line, ranges)) -&gt; (
+      <span data-count="219">m</span>atch getline ic with
+      | <span data-count="162">O</span>k (Line (line, ranges)) -&gt; (
           (* line parser *)
           match parse_line ht_sect ht section line with
-          | <span data-count="143">O</span>k (section, ht_sect, ht) -&gt;
+          | <span data-count="145">O</span>k (section, ht_sect, ht) -&gt;
             (* update line number for error reporting *)
-            let lineno = <span data-count="143">l</span>ineno + (List.length ranges) + 1 in
-            <span data-count="143">l</span>oop lineno section ht_sect ht ic
+            let lineno = <span data-count="145">l</span>ineno + (List.length ranges) + 1 in
+            <span data-count="145">l</span>oop lineno section ht_sect ht ic
           | <span data-count="17">E</span>rror (pos, fname, msg) -&gt;
             let i, pos = <span data-count="17">f</span>ind_pos ranges pos in
             <span data-count="17">E</span>rror (Parse (filename, lineno + i, pos, fname, msg))
         )
-      | <span data-count="53">O</span>k EOF -&gt; Ok ()
+      | <span data-count="54">O</span>k EOF -&gt; Ok ()
       | <span data-count="3">E</span>rror (s, nbits, len, limit) -&gt; Error (Extend (s, nbits, len, limit))
     in
-    <span data-count="73">l</span>et res = <span data-count="73">l</span>oop 1 "default" conf.ht_sect conf.ht ic in
-    <span data-count="73">c</span>lose_in ic;
-    <span data-count="73">r</span>es
+    <span data-count="74">l</span>et res = <span data-count="74">l</span>oop 1 "default" conf.ht_sect conf.ht ic in
+    <span data-count="74">c</span>lose_in ic;
+    <span data-count="74">r</span>es
 
 open Sexplib.Std
 
 (* conversion to / from sexp *)
 
-<span data-count="14">t</span>ype string_pair = <span data-count="424">s</span>tring * string [@@deriving sexp]
-<span data-count="89">t</span>ype spl = string_pair list [@@deriving sexp]
-<span data-count="14">t</span>ype hkv = <span data-count="208">s</span>tring_pair * string [@@deriving sexp]
-<span data-count="58">t</span>ype hkvl = hkv list [@@deriving sexp]
-<span data-count="14">t</span>ype hskv = <span data-count="296">s</span>tring * spl [@@deriving sexp]
-<span data-count="58">t</span>ype hskvl = hskv list [@@deriving sexp]
-<span data-count="14">t</span>ype hs_h = <span data-count="176">h</span>skvl * hkvl [@@deriving sexp]
+<span data-count="14">t</span>ype string_pair = <span data-count="448">s</span>tring * string [@@deriving sexp]
+<span data-count="95">t</span>ype spl = string_pair list [@@deriving sexp]
+<span data-count="14">t</span>ype hkv = <span data-count="220">s</span>tring_pair * string [@@deriving sexp]
+<span data-count="61">t</span>ype hkvl = hkv list [@@deriving sexp]
+<span data-count="14">t</span>ype hskv = <span data-count="320">s</span>tring * spl [@@deriving sexp]
+<span data-count="61">t</span>ype hskvl = hskv list [@@deriving sexp]
+<span data-count="14">t</span>ype hs_h = <span data-count="188">h</span>skvl * hkvl [@@deriving sexp]
 
-let hfold h = <span data-count="44">l</span>et f k v l = <span data-count="52">(</span>k, v) :: l in <span data-count="44">H</span>ashtbl.fold f h []
-and sfold stk = <span data-count="75">l</span>et f l e = <span data-count="54">e</span> :: l in <span data-count="75">S</span>tack.fold f [] stk
-let hsfold h = <span data-count="44">l</span>et f k v l = <span data-count="74">(</span>k, sfold v) :: l in <span data-count="44">H</span>ashtbl.fold f h []
-let htfold (hs, h) = <span data-count="44">h</span>sfold hs, hfold h
+let hfold h = <span data-count="46">l</span>et f k v l = <span data-count="54">(</span>k, v) :: l in <span data-count="46">H</span>ashtbl.fold f h []
+and sfold stk = <span data-count="79">l</span>et f l e = <span data-count="56">e</span> :: l in <span data-count="79">S</span>tack.fold f [] stk
+let hsfold h = <span data-count="46">l</span>et f k v l = <span data-count="78">(</span>k, sfold v) :: l in <span data-count="46">H</span>ashtbl.fold f h []
+let htfold (hs, h) = <span data-count="46">h</span>sfold hs, hfold h
 
 let hunfold l =
-  <span data-count="0">l</span>et h = <span data-count="0">H</span>ashtbl.create ~random:false 10 in
-  <span data-count="0">l</span>et f (k, v) = <span data-count="0">H</span>ashtbl.add h k v in
-  <span data-count="0">L</span>ist.iter f l;
-  <span data-count="0">h</span>
+  <span data-count="1">l</span>et h = <span data-count="1">H</span>ashtbl.create ~random:false 10 in
+  <span data-count="1">l</span>et f (k, v) = <span data-count="1">H</span>ashtbl.add h k v in
+  <span data-count="1">L</span>ist.iter f l;
+  <span data-count="1">h</span>
 and sunfold kvl =
-  <span data-count="0">l</span>et stack = <span data-count="0">S</span>tack.create () in
-  <span data-count="0">l</span>et f kv = <span data-count="0">S</span>tack.push kv stack in
-  <span data-count="0">L</span>ist.iter f kvl;
-  <span data-count="0">s</span>tack
+  <span data-count="2">l</span>et stack = <span data-count="2">S</span>tack.create () in
+  <span data-count="2">l</span>et f kv = <span data-count="1">S</span>tack.push kv stack in
+  <span data-count="2">L</span>ist.iter f kvl;
+  <span data-count="2">s</span>tack
 let hsunfold l =
-  <span data-count="0">l</span>et h = <span data-count="0">H</span>ashtbl.create ~random:false 10 in
-  <span data-count="0">l</span>et f (k, kvl) = <span data-count="0">H</span>ashtbl.add h k (sunfold kvl) in
-  <span data-count="0">L</span>ist.iter f l;
-  <span data-count="0">h</span>
-let htunfold (hsl, hl) = <span data-count="0">h</span>sunfold hsl, hunfold hl
+  <span data-count="1">l</span>et h = <span data-count="1">H</span>ashtbl.create ~random:false 10 in
+  <span data-count="1">l</span>et f (k, kvl) = <span data-count="2">H</span>ashtbl.add h k (sunfold kvl) in
+  <span data-count="1">L</span>ist.iter f l;
+  <span data-count="1">h</span>
+let htunfold (hsl, hl) = <span data-count="1">h</span>sunfold hsl, hunfold hl
 
 type section_stack = (string * string) Stack.t
 
 let sexp_of_stack stack = <span data-count="1">s</span>fold stack |&gt; <span data-count="1">s</span>exp_of_spl
 let stack_of_sexp sexp = <span data-count="0">s</span>pl_of_sexp sexp |&gt; <span data-count="0">s</span>unfold
 
-let sexp_of_conf conf = <span data-count="44">h</span>tfold (conf.ht_sect, conf.ht) |&gt; <span data-count="44">s</span>exp_of_hs_h
+let sexp_of_conf conf = <span data-count="46">h</span>tfold (conf.ht_sect, conf.ht) |&gt; <span data-count="46">s</span>exp_of_hs_h
 let conf_of_sexp sexp =
-  <span data-count="0">l</span>et hs_h = <span data-count="0">h</span>s_h_of_sexp sexp in
-  <span data-count="0">m</span>atch htunfold hs_h with <span data-count="0">(</span>ht_sect, ht) -&gt; { ht_sect; ht; }
+  <span data-count="1">l</span>et hs_h = <span data-count="1">h</span>s_h_of_sexp sexp in
+  <span data-count="1">m</span>atch htunfold hs_h with <span data-count="1">(</span>ht_sect, ht) -&gt; { ht_sect; ht; }
 
 (*---------------------------------------------------------------------------
    Copyright (c) 2017 Tony Wuersch
@@ -2812,7 +2797,7 @@ let conf_of_sexp sexp =
 </pre>
       </div>
     </div>
-    <div id="footer">Generated on 2017-10-22 04:18:57 by <a href="https://github.com/aantron/bisect_ppx">Bisect_ppx</a> 1.3.1</div>
+    <div id="footer">Generated on 2017-10-22 04:39:48 by <a href="https://github.com/aantron/bisect_ppx">Bisect_ppx</a> 1.3.1</div>
     <script src="coverage.js"></script>
   </body>
 </html>
