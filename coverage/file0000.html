@@ -2168,16 +2168,16 @@ type t = trec
 (* sslconf type *)
 
 let create () =
-  <span data-count="75">l</span>et ht_sect = <span data-count="75">H</span>ashtbl.create ~random:false 10 in
-  <span data-count="75">l</span>et ht = <span data-count="75">H</span>ashtbl.create ~random:false 10 in
-  <span data-count="75">l</span>et stack = <span data-count="75">S</span>tack.create () in
-  <span data-count="75">l</span>et section = <span data-count="75">"</span>default" in
-  <span data-count="75">H</span>ashtbl.add ht_sect section stack;
-  <span data-count="75">{</span> ht_sect; ht }
+  <span data-count="76">l</span>et ht_sect = <span data-count="76">H</span>ashtbl.create ~random:false 10 in
+  <span data-count="76">l</span>et ht = <span data-count="76">H</span>ashtbl.create ~random:false 10 in
+  <span data-count="76">l</span>et stack = <span data-count="76">S</span>tack.create () in
+  <span data-count="76">l</span>et section = <span data-count="76">"</span>default" in
+  <span data-count="76">H</span>ashtbl.add ht_sect section stack;
+  <span data-count="76">{</span> ht_sect; ht }
 
 (* call here only with a section+name hash table ! *)
 let find_option_section_name ht section_name = 
-  <span data-count="28">t</span>ry Some (Hashtbl.find ht section_name) with <span data-count="21">N</span>ot_found -&gt; None
+  <span data-count="29">t</span>ry Some (Hashtbl.find ht section_name) with <span data-count="22">N</span>ot_found -&gt; None
 
 (* get value for name in default section *)
 let get_default_value ht name =
@@ -2185,21 +2185,21 @@ let get_default_value ht name =
 
 (* get value for name in process environment *)
 let get_env_value name =
-  <span data-count="14">t</span>ry Some (Sys.getenv name) with <span data-count="3">N</span>ot_found -&gt; None
+  <span data-count="15">t</span>ry Some (Sys.getenv name) with <span data-count="3">N</span>ot_found -&gt; None
 
 (* call here only with an optional section+name hash table ! *)
 let get_string ?ht ?section name =
-  <span data-count="24">m</span>atch ht with
-  | <span data-count="22">S</span>ome ht -&gt; (
+  <span data-count="25">m</span>atch ht with
+  | <span data-count="23">S</span>ome ht -&gt; (
       match section with
-      | <span data-count="21">S</span>ome section -&gt; (
+      | <span data-count="22">S</span>ome section -&gt; (
           match find_option_section_name ht (section, name) with
           | <span data-count="5">S</span>ome value -&gt; Some value
-          | <span data-count="16">N</span>one -&gt;
+          | <span data-count="17">N</span>one -&gt;
             if section = "ENV"
             then
-              <span data-count="12">m</span>atch get_env_value name with
-              | <span data-count="10">S</span>ome value -&gt; Some value
+              <span data-count="13">m</span>atch get_env_value name with
+              | <span data-count="11">S</span>ome value -&gt; Some value
               | <span data-count="2">N</span>one -&gt; get_default_value ht name
             else
               <span data-count="4">g</span>et_default_value ht name
@@ -2216,10 +2216,10 @@ let conf_get_string ?conf ?section name =
 
 (* call here only with a section hash table ! *)
 let get_section ht section = 
-  <span data-count="85">t</span>ry Some (Hashtbl.find ht section) with <span data-count="2">N</span>ot_found -&gt; None
+  <span data-count="88">t</span>ry Some (Hashtbl.find ht section) with <span data-count="3">N</span>ot_found -&gt; None
 
 let conf_get_section conf section =
-  <span data-count="2">g</span>et_section conf.ht_sect section
+  <span data-count="3">g</span>et_section conf.ht_sect section
 
 (* maximum string length returned by {!Buf.gets}. (Openssl CONFBUFSIZE) *)
 let max_length = <span data-count="2">5</span>10 (* CONFBUFSIZE = 512 for C strings ending in '\0' *)
@@ -2311,11 +2311,11 @@ let getline ic =
 
      return continued_line * start_offsets
    *)
-  <span data-count="219">l</span>et rec loop ic buf starts start =
-    <span data-count="235">m</span>atch Buf.extend buf (start + max_length) with
-    | <span data-count="232">O</span>k buf -&gt;
-      let data = <span data-count="232">B</span>uf.data buf in
-      <span data-count="232">l</span>et n = <span data-count="232">B</span>io.gets ic data start max_length in
+  <span data-count="223">l</span>et rec loop ic buf starts start =
+    <span data-count="239">m</span>atch Buf.extend buf (start + max_length) with
+    | <span data-count="236">O</span>k buf -&gt;
+      let data = <span data-count="236">B</span>uf.data buf in
+      <span data-count="236">l</span>et n = <span data-count="236">B</span>io.gets ic data start max_length in
       (*
          - debug output
       if n = max_length &amp;&amp; start = 0
@@ -2330,8 +2330,8 @@ let getline ic =
         else ()
       else ();
        *)
-      <span data-count="232">i</span>f <span data-count="232">s</span>tart = 0 &amp;&amp; <span data-count="218">n</span> = 0
-      then <span data-count="54">O</span>k EOF (* empty buffer and no newline seen === end of file *)
+      <span data-count="236">i</span>f <span data-count="236">s</span>tart = 0 &amp;&amp; <span data-count="222">n</span> = 0
+      then <span data-count="55">O</span>k EOF (* empty buffer and no newline seen === end of file *)
       else
         (* Strip continuation character and newline (LF or CRLF).
            Here, we are simpler than NCONF code.
@@ -2340,24 +2340,24 @@ let getline ic =
            That can't happen for us.
            Our "get" ([Bio.gets]) reads zero or one newline.
         *)
-        <span data-count="178">l</span>et line_length =
-          <span data-count="178">i</span>f n = 0
+        <span data-count="181">l</span>et line_length =
+          <span data-count="181">i</span>f n = 0
           then <span data-count="2">n</span>
-          else <span data-count="176">i</span>f Bytes.get data (start + n - 1) = '\n'
+          else <span data-count="179">i</span>f Bytes.get data (start + n - 1) = '\n'
           then
-            <span data-count="156">l</span>et strip_n =
-              <span data-count="156">i</span>f <span data-count="156">n</span> &gt; 1 &amp;&amp; <span data-count="147">B</span>ytes.get data (start + n - 2) = '\r'
+            <span data-count="159">l</span>et strip_n =
+              <span data-count="159">i</span>f <span data-count="159">n</span> &gt; 1 &amp;&amp; <span data-count="150">B</span>ytes.get data (start + n - 2) = '\r'
               then <span data-count="3">2</span>
-              else <span data-count="153">1</span>
-            in <span data-count="156">n</span> - strip_n
+              else <span data-count="156">1</span>
+            in <span data-count="159">n</span> - strip_n
           else <span data-count="20">n</span>
         in
         (* end of line was seen *)
-        <span data-count="178">l</span>et eol_seen = <span data-count="178">l</span>ine_length != n in
+        <span data-count="181">l</span>et eol_seen = <span data-count="181">l</span>ine_length != n in
         (* a long line is a full read with no newline at its end *)
-        <span data-count="178">l</span>et long_line = <span data-count="356">n</span> = max_length &amp;&amp; <span data-count="8">n</span>ot eol_seen in
+        <span data-count="181">l</span>et long_line = <span data-count="362">n</span> = max_length &amp;&amp; <span data-count="8">n</span>ot eol_seen in
         (* seek start of next line *)
-        <span data-count="178">l</span>et start = <span data-count="178">s</span>tart + line_length in
+        <span data-count="181">l</span>et start = <span data-count="181">s</span>tart + line_length in
           (*
              Q: is an unescaped escape char at end of line?
              Then it's a continuation character.
@@ -2366,26 +2366,26 @@ let getline ic =
              In context of NCONF parsing, this isn't a harmful thing.
              So I'll allow it ... but it seems like a bug ...
            *)
-        <span data-count="178">l</span>et line_cont_seen =
-          <span data-count="356">s</span>tart != 0
-          &amp;&amp; <span data-count="338">B</span>ytes.get data (start - 1) = '\\'
+        <span data-count="181">l</span>et line_cont_seen =
+          <span data-count="362">s</span>tart != 0
+          &amp;&amp; <span data-count="344">B</span>ytes.get data (start - 1) = '\\'
           &amp;&amp; <span data-count="12">(</span><span data-count="12">s</span>tart = 1 || <span data-count="12">n</span>ot (Bytes.get data (start - 2) = '\\')) in
-        <span data-count="178">l</span>et start = <span data-count="178">i</span>f line_cont_seen then <span data-count="11">s</span>tart - 1 else <span data-count="167">s</span>tart in
+        <span data-count="181">l</span>et start = <span data-count="181">i</span>f line_cont_seen then <span data-count="11">s</span>tart - 1 else <span data-count="170">s</span>tart in
         (* if line continuation was seen, drop continuation char *)
-        <span data-count="178">i</span>f <span data-count="178">l</span>ong_line || <span data-count="170">l</span>ine_cont_seen
+        <span data-count="181">i</span>f <span data-count="181">l</span>ong_line || <span data-count="173">l</span>ine_cont_seen
         then
           <span data-count="16">l</span>et starts = <span data-count="16">i</span>f eol_seen then <span data-count="6">s</span>tart :: starts else <span data-count="10">s</span>tarts in
           (* if saw end of line, add start offset to line offsets *)
           <span data-count="16">l</span>oop ic buf starts start
         else
-          <span data-count="162">l</span>et line = <span data-count="162">B</span>ytes.sub_string data 0 start
-          and starts = <span data-count="162">L</span>ist.rev starts in
-          <span data-count="162">O</span>k (Line (line, starts))
+          <span data-count="165">l</span>et line = <span data-count="165">B</span>ytes.sub_string data 0 start
+          and starts = <span data-count="165">L</span>ist.rev starts in
+          <span data-count="165">O</span>k (Line (line, starts))
     | <span data-count="3">E</span>rror tuple -&gt; Error tuple
   in
-  <span data-count="219">l</span>et nbits = <span data-count="219">m</span>atch !nbits with <span data-count="207">N</span>one -&gt; default_nbits | <span data-count="12">S</span>ome i -&gt; i in
-  <span data-count="219">l</span>et buf = <span data-count="219">B</span>uf.empty nbits in
-  <span data-count="219">l</span>oop ic buf [] 0
+  <span data-count="223">l</span>et nbits = <span data-count="223">m</span>atch !nbits with <span data-count="211">N</span>one -&gt; default_nbits | <span data-count="12">S</span>ome i -&gt; i in
+  <span data-count="223">l</span>et buf = <span data-count="223">B</span>uf.empty nbits in
+  <span data-count="223">l</span>oop ic buf [] 0
 
 open Astring
 
@@ -2394,9 +2394,9 @@ open Astring
    side effect: a new base string is created.
  *)
 let finish_parse_loop acc data rem =
-  <span data-count="192">l</span>et open String.Sub in
-  let acc = <span data-count="192">L</span>ist.rev (data :: acc) in
-  <span data-count="192">c</span>oncat
+  <span data-count="197">l</span>et open String.Sub in
+  let acc = <span data-count="197">L</span>ist.rev (data :: acc) in
+  <span data-count="197">c</span>oncat
     acc (* new base string *)
 , rem
 
@@ -2452,10 +2452,10 @@ let parse_quote q s =
    span, include escaped characters, don't exclude escape chars.
  *)
 let span_with_escapes sat rem =
-  <span data-count="185">l</span>et open String.Sub in
+  <span data-count="190">l</span>et open String.Sub in
   let rec loop acc rem =
-    <span data-count="202">l</span>et data, rem = <span data-count="202">s</span>pan ~sat rem in
-    <span data-count="202">m</span>atch head rem with
+    <span data-count="207">l</span>et data, rem = <span data-count="207">s</span>pan ~sat rem in
+    <span data-count="207">m</span>atch head rem with
     | <span data-count="17">S</span>ome '\\' -&gt; (
         let rem = <span data-count="17">t</span>ail rem in
         <span data-count="17">m</span>atch head rem with
@@ -2469,46 +2469,46 @@ let span_with_escapes sat rem =
              -- always a char next, or char is continuation char at eol.
           *)
       )
-    | <span data-count="167">S</span>ome _ | <span data-count="18">N</span>one -&gt;
+    | <span data-count="171">S</span>ome _ | <span data-count="19">N</span>one -&gt;
       finish_parse_loop acc data rem
   in
-  <span data-count="185">l</span>oop [] rem
+  <span data-count="190">l</span>oop [] rem
 
 (*
    use cases: subst (1 time, is_an), parse_line (1 time, is_anp).
    parse a qualified or unqualified name, with different predicates
  *)
 let parse_name sat rem =
-  <span data-count="119">l</span>et open String.Sub in
-  let part, rem = <span data-count="119">s</span>pan_with_escapes sat rem in
-  <span data-count="119">m</span>atch head rem with
-  | <span data-count="19">S</span>ome ':' -&gt; (
-      let rem = <span data-count="19">t</span>ail rem in
-      <span data-count="19">m</span>atch head rem with
-      | <span data-count="16">S</span>ome ':' -&gt;
-        let section = <span data-count="16">t</span>o_string part in
-        <span data-count="16">l</span>et name, rem = <span data-count="16">s</span>pan_with_escapes sat (tail rem) in
-        <span data-count="16">O</span>k (Some section, name, rem)
+  <span data-count="122">l</span>et open String.Sub in
+  let part, rem = <span data-count="122">s</span>pan_with_escapes sat rem in
+  <span data-count="122">m</span>atch head rem with
+  | <span data-count="20">S</span>ome ':' -&gt; (
+      let rem = <span data-count="20">t</span>ail rem in
+      <span data-count="20">m</span>atch head rem with
+      | <span data-count="17">S</span>ome ':' -&gt;
+        let section = <span data-count="17">t</span>o_string part in
+        <span data-count="17">l</span>et name, rem = <span data-count="17">s</span>pan_with_escapes sat (tail rem) in
+        <span data-count="17">O</span>k (Some section, name, rem)
       | <span data-count="2">S</span>ome _ | <span data-count="1">N</span>one -&gt;
         Error (start_pos rem, "parse_name", "two-colon token not found")
     )
-  | <span data-count="95">S</span>ome _ | <span data-count="5">N</span>one -&gt; Ok (None, part, rem)
+  | <span data-count="97">S</span>ome _ | <span data-count="5">N</span>one -&gt; Ok (None, part, rem)
 
 (* substitute [Sslconf.get_string] result *)
 let subst ht section rem =
-  <span data-count="22">l</span>et open String.Sub in
+  <span data-count="23">l</span>et open String.Sub in
   (* look for a wrapper *)
   let wrap, rem =
-    <span data-count="22">m</span>atch head rem with
+    <span data-count="23">m</span>atch head rem with
     | <span data-count="5">S</span>ome '{' -&gt; Some '}', tail rem
     | <span data-count="3">S</span>ome '(' -&gt; Some ')', tail rem
-    | <span data-count="14">_</span> -&gt; None, rem
+    | <span data-count="15">_</span> -&gt; None, rem
   in
-  <span data-count="22">l</span>et is_an c = <span data-count="312">C</span>har.Ascii.is_alphanum c || <span data-count="19">c</span> = '_' in
-  <span data-count="22">m</span>atch parse_name is_an rem with (* no punctuation! no whitespace! *)
-  | <span data-count="21">O</span>k (psection, name, rem) -&gt; (
+  <span data-count="23">l</span>et is_an c = <span data-count="334">C</span>har.Ascii.is_alphanum c || <span data-count="20">c</span> = '_' in
+  <span data-count="23">m</span>atch parse_name is_an rem with (* no punctuation! no whitespace! *)
+  | <span data-count="22">O</span>k (psection, name, rem) -&gt; (
       let result =
-        <span data-count="21">m</span>atch wrap with
+        <span data-count="22">m</span>atch wrap with
         | <span data-count="7">S</span>ome c -&gt; (
             match head rem with
             | <span data-count="5">S</span>ome ch -&gt;
@@ -2517,16 +2517,16 @@ let subst ht section rem =
               else <span data-count="2">E</span>rror "missing closing wrap char"
             | <span data-count="2">N</span>one -&gt; Error "missing closing wrap char"
           )
-        | <span data-count="14">N</span>one -&gt; Ok rem
+        | <span data-count="15">N</span>one -&gt; Ok rem
       in
-      <span data-count="21">m</span>atch result with
-      | <span data-count="17">O</span>k rem -&gt; (
-          let section = <span data-count="17">m</span>atch psection with
-          | <span data-count="13">S</span>ome s -&gt; Some s
+      <span data-count="22">m</span>atch result with
+      | <span data-count="18">O</span>k rem -&gt; (
+          let section = <span data-count="18">m</span>atch psection with
+          | <span data-count="14">S</span>ome s -&gt; Some s
           | <span data-count="4">N</span>one -&gt; section
           in
-          <span data-count="17">m</span>atch get_string ~ht ?section (to_string name) with
-          | <span data-count="14">S</span>ome s -&gt; Ok (String.sub s, rem)
+          <span data-count="18">m</span>atch get_string ~ht ?section (to_string name) with
+          | <span data-count="15">S</span>ome s -&gt; Ok (String.sub s, rem)
           | <span data-count="3">N</span>one -&gt; Error (start_pos rem, "subst", "variable has no value")
         )
       | <span data-count="4">E</span>rror s -&gt; Error (start_pos rem, "subst", s)
@@ -2550,11 +2550,11 @@ let translate_char = <span data-count="2">f</span>unction
  *)
 let parse_value ht section value =
   (* not escape char, double quote, single quote, dollar sign, hash char *)
-  <span data-count="138">l</span>et is_data = <span data-count="138">f</span>unction <span data-count="13">'</span>\\' | <span data-count="5">'</span>"' | <span data-count="2">'</span>\'' | <span data-count="22">'</span>$' | <span data-count="3">'</span>#' -&gt; false | <span data-count="415">_</span> -&gt; true in
-  <span data-count="138">l</span>et rec loop acc s =
-    <span data-count="172">l</span>et open String.Sub in
-    let data, rem = <span data-count="172">s</span>pan ~sat:is_data s in
-    <span data-count="172">m</span>atch head rem with
+  <span data-count="141">l</span>et is_data = <span data-count="141">f</span>unction <span data-count="13">'</span>\\' | <span data-count="5">'</span>"' | <span data-count="2">'</span>\'' | <span data-count="23">'</span>$' | <span data-count="3">'</span>#' -&gt; false | <span data-count="422">_</span> -&gt; true in
+  <span data-count="141">l</span>et rec loop acc s =
+    <span data-count="176">l</span>et open String.Sub in
+    let data, rem = <span data-count="176">s</span>pan ~sat:is_data s in
+    <span data-count="176">m</span>atch head rem with
     | Some (<span data-count="2">'</span>\'' | <span data-count="5">'</span>"' as quote) -&gt; (
         let f =
           <span data-count="7">i</span>f Sys.os_type = "Win32" (* Unix bisect can't go here *)
@@ -2578,24 +2578,24 @@ let parse_value ht section value =
            -- always a char next, or char is continuation char at eol.
         *)
       )
-    | <span data-count="22">S</span>ome '$' -&gt; (
+    | <span data-count="23">S</span>ome '$' -&gt; (
         (* variable substitution *)
         match subst ht section (tail rem) with
-        | <span data-count="14">O</span>k (value, rem) -&gt; loop (value :: data :: acc) rem
+        | <span data-count="15">O</span>k (value, rem) -&gt; loop (value :: data :: acc) rem
         | <span data-count="8">E</span>rror tuple -&gt; Error tuple
       )
-    | <span data-count="3">S</span>ome '#' | <span data-count="127">N</span>one -&gt;
-      let acc = <span data-count="130">L</span>ist.rev (data :: acc) in
-      <span data-count="130">O</span>k (drop ~rev:true ~sat:Char.Ascii.is_white (concat acc)) (* trim trailing space *)
+    | <span data-count="3">S</span>ome '#' | <span data-count="130">N</span>one -&gt;
+      let acc = <span data-count="133">L</span>ist.rev (data :: acc) in
+      <span data-count="133">O</span>k (drop ~rev:true ~sat:Char.Ascii.is_white (concat acc)) (* trim trailing space *)
     | Some _ -&gt; failwith "parse_value: pattern-match failure" (*BISECT-IGNORE*)
   in
-  <span data-count="138">l</span>oop [] value
+  <span data-count="141">l</span>oop [] value
 
 (* note - no special characters are here at all *)
 let is_punct = <span data-count="2">f</span>unction
   <span data-count="4">'</span>!' | <span data-count="4">'</span>.' | <span data-count="1">'</span>%' | <span data-count="1">'</span>&amp;' | <span data-count="1">'</span>*' | <span data-count="1">'</span>+' |
   <span data-count="2">'</span>;' | <span data-count="1">'</span>?' | <span data-count="1">'</span>@' | <span data-count="1">'</span>^' | <span data-count="1">'</span>~' | <span data-count="1">'</span>|' | <span data-count="1">'</span>-' -&gt; true
-| <span data-count="165">_</span> -&gt; false
+| <span data-count="168">_</span> -&gt; false
 
 (* see openssl crypto/conf/conf_def.c; section changes if ['['..']'] seen.
 
@@ -2613,28 +2613,28 @@ let is_punct = <span data-count="2">f</span>unction
    The position offset and procedure name show where an error was found.
  *)
 let parse_line ht_section ht section line =
-  <span data-count="162">l</span>et is_anp c = <span data-count="1240">C</span>har.Ascii.is_alphanum c || <span data-count="376">c</span> = '_' || <span data-count="185">i</span>s_punct c in
-  <span data-count="162">l</span>et is_anp_or_ws c = <span data-count="736">C</span>har.Ascii.is_white c || <span data-count="368">i</span>s_anp c in
-  <span data-count="162">l</span>et line = <span data-count="162">S</span>tring.sub line in
-  <span data-count="162">l</span>et open String.Sub in
-  let line = <span data-count="162">d</span>rop ~sat:Char.Ascii.is_white line in
-  <span data-count="162">m</span>atch head line with
+  <span data-count="165">l</span>et is_anp c = <span data-count="1262">C</span>har.Ascii.is_alphanum c || <span data-count="382">c</span> = '_' || <span data-count="188">i</span>s_punct c in
+  <span data-count="165">l</span>et is_anp_or_ws c = <span data-count="750">C</span>har.Ascii.is_white c || <span data-count="375">i</span>s_anp c in
+  <span data-count="165">l</span>et line = <span data-count="165">S</span>tring.sub line in
+  <span data-count="165">l</span>et open String.Sub in
+  let line = <span data-count="165">d</span>rop ~sat:Char.Ascii.is_white line in
+  <span data-count="165">m</span>atch head line with
   | <span data-count="1">S</span>ome '#' | <span data-count="14">N</span>one -&gt; Ok (section, ht_section, ht) (* comment *)
-  | <span data-count="50">S</span>ome '[' -&gt; (
-      let start = <span data-count="50">d</span>rop ~sat:Char.Ascii.is_white (tail line) in
-      <span data-count="50">l</span>et name, rem = <span data-count="50">s</span>pan_with_escapes is_anp_or_ws start in
-      <span data-count="50">m</span>atch head rem with
-      | <span data-count="47">S</span>ome ']' -&gt; (
+  | <span data-count="51">S</span>ome '[' -&gt; (
+      let start = <span data-count="51">d</span>rop ~sat:Char.Ascii.is_white (tail line) in
+      <span data-count="51">l</span>et name, rem = <span data-count="51">s</span>pan_with_escapes is_anp_or_ws start in
+      <span data-count="51">m</span>atch head rem with
+      | <span data-count="48">S</span>ome ']' -&gt; (
           match parse_value ht None name with
-          | <span data-count="47">O</span>k value -&gt; (
-              let section = <span data-count="47">t</span>o_string value in
-              <span data-count="47">l</span>et _ =
-                <span data-count="47">t</span>ry ignore (Hashtbl.find ht_section section)
-                with <span data-count="47">N</span>ot_found -&gt;
-                  let stack = <span data-count="47">S</span>tack.create () in
-                  <span data-count="47">H</span>ashtbl.add ht_section section stack
+          | <span data-count="48">O</span>k value -&gt; (
+              let section = <span data-count="48">t</span>o_string value in
+              <span data-count="48">l</span>et _ =
+                <span data-count="48">t</span>ry ignore (Hashtbl.find ht_section section)
+                with <span data-count="48">N</span>ot_found -&gt;
+                  let stack = <span data-count="48">S</span>tack.create () in
+                  <span data-count="48">H</span>ashtbl.add ht_section section stack
               in
-              <span data-count="47">O</span>k (section, ht_section, ht)
+              <span data-count="48">O</span>k (section, ht_section, ht)
             )
           | Error tuple -&gt; Error tuple (*BISECT-IGNORE*)
           (* [caller context] parse_value can't return Error here *)
@@ -2642,33 +2642,33 @@ let parse_line ht_section ht section line =
       | <span data-count="2">S</span>ome _ | <span data-count="1">N</span>one -&gt;
         Error (start_pos rem, "parse_line", "closing square bracket not found")
     )
-  | <span data-count="97">S</span>ome c -&gt; (
+  | <span data-count="99">S</span>ome c -&gt; (
       if Sys.os_type = "Win32" &amp;&amp; c == ';' (*BISECT-IGNORE*)
       then Ok (section, ht_section, ht) (*BISECT-IGNORE*)
            (* Unix bisect can't go here *)
-      else <span data-count="97">m</span>atch parse_name is_anp line with
-      | <span data-count="95">O</span>k (psection, name, rem) -&gt; (
-          let section = <span data-count="95">m</span>atch psection with <span data-count="3">S</span>ome s -&gt; s | <span data-count="92">N</span>one -&gt; section
-          and rem = <span data-count="95">d</span>rop ~sat:Char.Ascii.is_white rem in
-          <span data-count="95">m</span>atch head rem with
-          | <span data-count="91">S</span>ome '=' -&gt; (
-              let rem = <span data-count="91">t</span>ail rem in
-              <span data-count="91">l</span>et value = <span data-count="91">d</span>rop ~sat:Char.Ascii.is_white rem in
-              <span data-count="91">m</span>atch parse_value ht (Some section) value with
-              | <span data-count="83">O</span>k value -&gt; (
-                  let name = <span data-count="83">t</span>o_string name and value = <span data-count="83">t</span>o_string value in
-                  <span data-count="83">l</span>et v = <span data-count="83">(</span>name, value) in
-                  <span data-count="83">b</span>egin
+      else <span data-count="99">m</span>atch parse_name is_anp line with
+      | <span data-count="97">O</span>k (psection, name, rem) -&gt; (
+          let section = <span data-count="97">m</span>atch psection with <span data-count="3">S</span>ome s -&gt; s | <span data-count="94">N</span>one -&gt; section
+          and rem = <span data-count="97">d</span>rop ~sat:Char.Ascii.is_white rem in
+          <span data-count="97">m</span>atch head rem with
+          | <span data-count="93">S</span>ome '=' -&gt; (
+              let rem = <span data-count="93">t</span>ail rem in
+              <span data-count="93">l</span>et value = <span data-count="93">d</span>rop ~sat:Char.Ascii.is_white rem in
+              <span data-count="93">m</span>atch parse_value ht (Some section) value with
+              | <span data-count="85">O</span>k value -&gt; (
+                  let name = <span data-count="85">t</span>o_string name and value = <span data-count="85">t</span>o_string value in
+                  <span data-count="85">l</span>et v = <span data-count="85">(</span>name, value) in
+                  <span data-count="85">b</span>egin
                     match (get_section ht_section section) with
-                    | <span data-count="82">S</span>ome stack -&gt; Stack.push v stack
+                    | <span data-count="84">S</span>ome stack -&gt; Stack.push v stack
                     | <span data-count="1">N</span>one -&gt; (
                         let stack = <span data-count="1">S</span>tack.create () in
                         <span data-count="1">S</span>tack.push v stack;
                         <span data-count="1">H</span>ashtbl.add ht_section section stack
                       );
                   end;
-                  <span data-count="83">H</span>ashtbl.add ht (section, name) value;
-                  <span data-count="83">O</span>k (section, ht_section, ht)
+                  <span data-count="85">H</span>ashtbl.add ht (section, name) value;
+                  <span data-count="85">O</span>k (section, ht_section, ht)
                 )
               | <span data-count="8">E</span>rror tuple -&gt; Error tuple
             )
@@ -2711,29 +2711,29 @@ let error_to_string error =
 
 (* error report precision wrangling, mostly *)
 let conf_load_file conf filename =
-  <span data-count="75">m</span>atch (try Ok (open_in filename) with <span data-count="1">S</span>ys_error s -&gt; Error s) with
+  <span data-count="76">m</span>atch (try Ok (open_in filename) with <span data-count="1">S</span>ys_error s -&gt; Error s) with
   | <span data-count="1">E</span>rror s -&gt; Error (Open s)
-  | <span data-count="74">O</span>k ic -&gt;
+  | <span data-count="75">O</span>k ic -&gt;
     let rec loop lineno section ht_sect ht ic =
       (* line handler *)
-      <span data-count="219">m</span>atch getline ic with
-      | <span data-count="162">O</span>k (Line (line, ranges)) -&gt; (
+      <span data-count="223">m</span>atch getline ic with
+      | <span data-count="165">O</span>k (Line (line, ranges)) -&gt; (
           (* line parser *)
           match parse_line ht_sect ht section line with
-          | <span data-count="145">O</span>k (section, ht_sect, ht) -&gt;
+          | <span data-count="148">O</span>k (section, ht_sect, ht) -&gt;
             (* update line number for error reporting *)
-            let lineno = <span data-count="145">l</span>ineno + (List.length ranges) + 1 in
-            <span data-count="145">l</span>oop lineno section ht_sect ht ic
+            let lineno = <span data-count="148">l</span>ineno + (List.length ranges) + 1 in
+            <span data-count="148">l</span>oop lineno section ht_sect ht ic
           | <span data-count="17">E</span>rror (pos, fname, msg) -&gt;
             let i, pos = <span data-count="17">f</span>ind_pos ranges pos in
             <span data-count="17">E</span>rror (Parse (filename, lineno + i, pos, fname, msg))
         )
-      | <span data-count="54">O</span>k EOF -&gt; Ok ()
+      | <span data-count="55">O</span>k EOF -&gt; Ok ()
       | <span data-count="3">E</span>rror (s, nbits, len, limit) -&gt; Error (Extend (s, nbits, len, limit))
     in
-    <span data-count="74">l</span>et res = <span data-count="74">l</span>oop 1 "default" conf.ht_sect conf.ht ic in
-    <span data-count="74">c</span>lose_in ic;
-    <span data-count="74">r</span>es
+    <span data-count="75">l</span>et res = <span data-count="75">l</span>oop 1 "default" conf.ht_sect conf.ht ic in
+    <span data-count="75">c</span>lose_in ic;
+    <span data-count="75">r</span>es
 
 open Sexplib.Std
 
@@ -2797,7 +2797,7 @@ let conf_of_sexp sexp =
 </pre>
       </div>
     </div>
-    <div id="footer">Generated on 2017-10-22 06:24:22 by <a href="https://github.com/aantron/bisect_ppx">Bisect_ppx</a> 1.3.1</div>
+    <div id="footer">Generated on 2017-10-22 07:42:17 by <a href="https://github.com/aantron/bisect_ppx">Bisect_ppx</a> 1.3.1</div>
     <script src="coverage.js"></script>
   </body>
 </html>

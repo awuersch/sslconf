@@ -155,27 +155,27 @@
    then end of file was reached.
  *)
 let gets ic b pos max =
-  <span data-count="232">l</span>et rec loop n =
-    <span data-count="5687">i</span>f n == max
+  <span data-count="236">l</span>et rec loop n =
+    <span data-count="5721">i</span>f n == max
     then <span data-count="8">n</span>
     else
-      <span data-count="5679">t</span>ry
-        let c = <span data-count="5679">i</span>nput_char ic in
-        <span data-count="5611">B</span>ytes.set b (pos + n) c;
-        <span data-count="5611">l</span>et n = <span data-count="5611">n</span> + 1
+      <span data-count="5713">t</span>ry
+        let c = <span data-count="5713">i</span>nput_char ic in
+        <span data-count="5644">B</span>ytes.set b (pos + n) c;
+        <span data-count="5644">l</span>et n = <span data-count="5644">n</span> + 1
         in
         (* according to Pervasives documentation,
            if ic is in text mode
            (on OSs that *have* text mode, i.e., Windows),
            then "\r\n" will be translated to "\n"
         *)
-        <span data-count="5611">i</span>f c == '\n'
-        then <span data-count="156">n</span>
-        else <span data-count="5455">l</span>oop n
+        <span data-count="5644">i</span>f c == '\n'
+        then <span data-count="159">n</span>
+        else <span data-count="5485">l</span>oop n
       with
-        <span data-count="68">E</span>nd_of_file -&gt; n
+        <span data-count="69">E</span>nd_of_file -&gt; n
   in
-  <span data-count="232">l</span>oop 0
+  <span data-count="236">l</span>oop 0
 
 (*---------------------------------------------------------------------------
    Copyright (c) 2017 Tony Wuersch
@@ -195,7 +195,7 @@ let gets ic b pos max =
 </pre>
       </div>
     </div>
-    <div id="footer">Generated on 2017-10-22 06:24:22 by <a href="https://github.com/aantron/bisect_ppx">Bisect_ppx</a> 1.3.1</div>
+    <div id="footer">Generated on 2017-10-22 07:42:17 by <a href="https://github.com/aantron/bisect_ppx">Bisect_ppx</a> 1.3.1</div>
     <script src="coverage.js"></script>
   </body>
 </html>
