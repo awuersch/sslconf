@@ -1,0 +1,35 @@
+sudo: required
+
+language: generic
+
+matrix:
+  include:
+    - os: linux
+      env: OCAML_VERSION=4.03
+    - os: linux
+      env: OCAML_VERSION=4.04
+    - os: linux
+      env: OCAML_VERSION=4.05
+    - os: osx
+      env: OCAML_VERSION=4.04
+    - os: osx
+      env: OCAML_VERSION=4.05
+
+  allow_failures:
+    - env: OCAML_VERSION=4.05
+
+  fast_finish: true
+
+script:
+  - bash -e ./travis/travis.sh
+after_success:
+  - bash -e ./travis/deploy.sh
+env:
+  global:
+    - ENCRYPTION_LABEL: e0f081eae562
+    - COMMIT_AUTHOR_EMAIL: "tony.wuersch@gmail.com"
+
+# safelist
+# branches:
+#   only:
+#   - master
