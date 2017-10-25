@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Sslconf (sslconf.Sslconf)</title><link rel="stylesheet" href="../../odoc.css"/><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><meta name="generator" content="doc-ock-html v1.0.0-1-g1fc9bf0"/></head><body><nav id="top"><a href="../index.html">Up</a> &mdash; <span class="package">package <a href="../index.html">sslconf</a></span></nav><header><h1><span class="keyword">Module</span> <span class="module-path">Sslconf</span></h1></header><p>an OCaml version of Openssl's NCONF library</p><p>Version <em>0.8.0-1-g3b4b4a7</em> — <a href="https://github.com/awuersch/sslconf">homepage</a></p><p>Module <code class="code">Sslconf</code>: a parser for Openssl config files.</p><p>Openssl config file documentation:
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Sslconf (sslconf.Sslconf)</title><link rel="stylesheet" href="../../odoc.css"/><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><meta name="generator" content="doc-ock-html v1.0.0-1-g1fc9bf0"/></head><body><nav id="top"><a href="../index.html">Up</a> &mdash; <span class="package">package <a href="../index.html">sslconf</a></span></nav><header><h1><span class="keyword">Module</span> <span class="module-path">Sslconf</span></h1></header><p>an OCaml version of Openssl's NCONF library</p><p>Version <em>0.8.0-3-gf61c5b3</em> — <a href="https://github.com/awuersch/sslconf">homepage</a></p><p>Module <code class="code">Sslconf</code>: a parser for Openssl config files.</p><p>Openssl config file documentation:
 <a href="https://www.openssl.org/docs/manmaster/man5/config.html">config.html</a></p><p>Openssl config files are ubiquitous in books, in documentation,
 and in Stack Overflow answers.</p><p>Definition of X509 certificates in Openssl is usually done by
 Openssl config files.</p><p>This module reproduces the Openssl NCONF implementation.
@@ -61,8 +61,9 @@ occured yet.</p><h3>Values</h3><p>A value is a sequence of parts,
 starting with the first non-whitespace character
 after the equal sign on a value line.</p><p>A part is one of three kinds:
 </p><ul><li>wrapped by double or single quotes;</li><li>a name substitution; or</li><li>regular text.</li></ul><p>Whitespace is stripped from the start and end of a value.
-Whitespace following the equal sign, and whitespace to the end of
-a line, or up to a comment hash char if present, is ignored.</p><h4>Quote wrapped parts</h4><p>Unix and Cygwin use default quote wrapping.</p><p>Default quote wrapped parts accept any character <em>as is</em>, and
+Whitespace following the equal sign, and whitespace,
+either to the end of a line,
+or up to a comment hash char if present, is ignored.</p><h4>Quote wrapped parts</h4><p>Unix and Cygwin use default quote wrapping.</p><p>Default quote wrapped parts accept any character <em>as is</em>, and
 also allow quotes if preceded immediately by escape chars.</p><p>Escape chars and
 the quotes which wrap surrounded parts
 are stripped.</p><p>Win32 uses double quote wrapping.
@@ -80,7 +81,7 @@ with the value corresponding to the name and its section.</p><p>If the section i
 a value is found from a hashtable with section+name keys.
 If the section is (<code class="code">&quot;ENV&quot;</code>),
 a value is found from the process environment.</p><p>If substitution fails, the parser returns an error,
-It reports that no value could be found for the name.</p><p>A name given for name substitution may only contain
+reporting that no value could be found for the name.</p><p>A name given for name substitution may only contain
 alphanumeric or underscore characters.
 It may not contain punctuation or whitespace,
 unless these are escaped <em>via</em> an escape (<code class="code">'\\'</code>) character.
