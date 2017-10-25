@@ -62,7 +62,7 @@
 
     What follows is detail for maintainers.
 
-    {1 Detail First Pass - Line Recognition}
+    {1 First Pass - Line Recognition}
 
     If the parser sees an escape char (['\\']) at the end of a line, it
     combines the line with the next line.
@@ -91,7 +91,7 @@
     Both newlines and line continuation characters are removed from
     the strings passed to the parser in its second pass.
 
-    {1 Detail Second Pass - Configuration Recognition}
+    {1 Second Pass - Configuration Recognition}
 
     {2 Error reporting - line and column numbers}
 
