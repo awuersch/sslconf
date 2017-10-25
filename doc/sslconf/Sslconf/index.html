@@ -16,7 +16,7 @@ stacks defined in Openssl's crypto library.</p><p>Openssl code:
 </p><ul><li>a (<code class="code">&quot;[&lt;section&gt;]&quot;</code>) string inside square brackets; or</li></ul></li><li><p>value lines, i.e.,
 </p><ul><li>a (<code class="code">&quot;&lt;name&gt; = &lt;value&gt;&quot;</code>) assignment.</li></ul></li></ul><p>Openssl config file documentation:
 <a href="https://www.openssl.org/docs/manmaster/man5/config.html">config.html</a></p><p>The Openssl config file documentation is enough for most users, but
-is not a complete specification.</p><p>What follows is detail for maintainers.</p><h2>Detail First Pass - Line Recognition</h2><p>If the parser sees an escape char (<code class="code">'\\'</code>) at the end of a line, it
+is not a complete specification.</p><p>What follows is detail for maintainers.</p><h2>First Pass - Line Recognition</h2><p>If the parser sees an escape char (<code class="code">'\\'</code>) at the end of a line, it
 combines the line with the next line.</p><p>The escape char may itself be escaped. If escaped, the escape char
 loses its special meaning as a line continuation mark.</p><h3>Bounded Reads and Continuation Chars</h3><p>The parser reads up to a newline, or a maximum length if no newline
 is found. If no newline is found, the parser does another read,
@@ -27,7 +27,7 @@ A config file valid in Openssl will still be valid here.</p><p>If the parser see
 i.e., as the 510th character,
 it will apply line continuation logic -- even if
 a newline is not seen at the end.</p><p>Both newlines and line continuation characters are removed from
-the strings passed to the parser in its second pass.</p><h2>Detail Second Pass - Configuration Recognition</h2><h3>Error reporting - line and column numbers</h3><p>Error reporting reports line and column numbers.
+the strings passed to the parser in its second pass.</p><h2>Second Pass - Configuration Recognition</h2><h3>Error reporting - line and column numbers</h3><p>Error reporting reports line and column numbers.
 Line numbers are relative to the file being read.</p><p>The first line is line 1. The first column is column 1.</p><h2>Comment lines</h2><p>A comment line is either an empty line, a line of all whitespace,
 or whitespace followed by a hash char.</p><p>In Win32 only, a line starting with a semicolon is also a comment.</p><p>Comment lines are ignored and not saved.</p><p>The end of a value line may have a comment.
 Value line comments start with a hash char.
