@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Sslconf (sslconf.Sslconf)</title><link rel="stylesheet" href="../../odoc.css"/><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><meta name="generator" content="doc-ock-html v1.0.0-1-g1fc9bf0"/></head><body><nav id="top"><a href="../index.html">Up</a> &mdash; <span class="package">package <a href="../index.html">sslconf</a></span></nav><header><h1><span class="keyword">Module</span> <span class="module-path">Sslconf</span></h1></header><p>an OCaml version of Openssl's NCONF library</p><p>Version <em>%%VERSION%%</em> — <a href="%%PKG_HOMEPAGE%%">homepage</a></p><p>Module <code class="code">Sslconf</code>: a parser for Openssl config files.</p><p>Openssl config files are ubiquitous in books, in documentation,
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Sslconf (sslconf.Sslconf)</title><link rel="stylesheet" href="../../odoc.css"/><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><meta name="generator" content="doc-ock-html v1.0.0-1-g1fc9bf0"/></head><body><nav id="top"><a href="../index.html">Up</a> &mdash; <span class="package">package <a href="../index.html">sslconf</a></span></nav><header><h1><span class="keyword">Module</span> <span class="module-path">Sslconf</span></h1></header><p>an OCaml version of Openssl's NCONF library</p><p>Version <em>%%VERSION%%</em> — <a href="%%PKG_HOMEPAGE%%">homepage</a></p><p>Module <code class="code">Sslconf</code>: a parser for Openssl config files.</p><p>Openssl config file documentation:
+<a href="https://www.openssl.org/docs/manmaster/man5/config.html">config.html</a></p><p>Openssl config files are ubiquitous in books, in documentation,
 and in Stack Overflow answers.</p><p>Definition of X509 certificates in Openssl is usually done by
 Openssl config files.</p><p>This module reproduces the Openssl NCONF implementation.
 Openssl NCONF is part of the Openssl crypto library (-libcrypto).</p><p>This module attaches no semantics to the strings and stacks it
-returns. It is similar to Openssl NCONF in this way.</p><p>Openssl attaches semantics to hash tables returned by Openssl
-NCONF, <em>via</em> commands such as <em>openssl x509</em> or <em>openssl ca</em>.</p><p>This implementation uses standard OCaml hash tables and stacks.
-Some may view this as a weakness.
+returns. It is similar to Openssl NCONF in this way.</p><p>Openssl attaches semantics to the CONF data structure returned by
+Openssl NCONF,
+<em>via</em> commands such as <em>openssl x509</em> or <em>openssl ca</em>.</p><p>This implementation is backed by standard OCaml hash tables and
+stacks. Some may view this as a weakness.
 Openssl's NCONF implementation draws on custom hash tables and
 stacks defined in Openssl's crypto library.</p><p>Openssl code:
 <a href="https://github.com/openssl/openssl/blob/master/include/openssl/conf.h">conf.h</a><a href="https://github.com/openssl/openssl/blob/master/crypto/conf/conf_def.c">conf_def.c</a><a href="https://github.com/openssl/openssl/blob/master/crypto/conf/conf_api.c">conf_api.c</a><a href="https://github.com/openssl/openssl/blob/master/crypto/conf/conf_lib.c">conf_lib.c</a><a href="https://github.com/openssl/openssl/blob/master/crypto/bio/bss_fd.c">bss_fd.c</a></p><h2>Parser Overview</h2><p>Lines recognized by the parser are:
@@ -55,21 +57,20 @@ The second part is the name.</p><p>If the section of a qualified name is not in 
 new entry for the section is added.</p><p>An unqualified name belongs to the default section.
 The default section is the section named by the most recent
 previous section line, or &quot;default&quot; if no section line has
-occured yet.</p><h3>Values</h3><p>A value is a concatenated sequence of parts. It starts with the
-first non-whitespace character after the equal sign on a value line.</p><p>A part is one of three kinds:
-</p><ul><li>wrapped by double or single quotes;</li><li>a name substitution; or</li><li>regular text.</li></ul><p>Whitespace is stripped from the start and end of a value. Hence,
-whitespace following the equal sign, and whitespace to the end of
-a line, or up to a comment hash char if present, is ignored.
-A value starts and ends with a non-whitespace value, unless its
-first or last value was escaped <em>via</em> an escape (<code class="code">'\\'</code>) char.</p><h4>Quote wrapped parts</h4><p>Unix and Cygwin use default quote wrapping.</p><p>Default quote wrapped parts accept any character <em>as is</em>, and
+occured yet.</p><h3>Values</h3><p>A value is a sequence of parts,
+starting with the first non-whitespace character
+after the equal sign on a value line.</p><p>A part is one of three kinds:
+</p><ul><li>wrapped by double or single quotes;</li><li>a name substitution; or</li><li>regular text.</li></ul><p>Whitespace is stripped from the start and end of a value.
+Whitespace following the equal sign, and whitespace to the end of
+a line, or up to a comment hash char if present, is ignored.</p><h4>Quote wrapped parts</h4><p>Unix and Cygwin use default quote wrapping.</p><p>Default quote wrapped parts accept any character <em>as is</em>, and
 also allow quotes if preceded immediately by escape chars.</p><p>Escape chars and
-the quotes which wrap quote surrounded parts
-are stripped.</p><p>Win32 uses double quote wrapping.</p><p>Double quote wrapped parts accept any character <em>as is</em>.
-Double quotes normally end a double quote wrapped string.
-However, if two double quotes appear next to each other,
-one of them is added, the other is stripped, and the double
-quote string continues.</p><p>Double quotes which wrap double quote surrounded parts are
-stripped.</p><h4>Name substitution</h4><p>Name substitution starts with a (<code class="code">'$'</code>) character.
+the quotes which wrap surrounded parts
+are stripped.</p><p>Win32 uses double quote wrapping.
+Double quote wrapped parts accept any character <em>as is</em>,
+unless it is a double quote. There is one exception.
+A double quote may appear inside a double quote wrapped
+string, if a double quote immediately precedes it.</p><p>Wrapping double quotes, and double quotes which immediately
+precede double quotes, are stripped.</p><h4>Name substitution</h4><p>Name substitution starts with a (<code class="code">'$'</code>) character.
 The (<code class="code">'$'</code>) character should be followed by a name.
 The name may be optionally wrapped
 by parentheses (<code class="code">&quot;()&quot;</code>) or curly brackets (<code class="code">&quot;{}&quot;</code>).
