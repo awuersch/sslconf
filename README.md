@@ -125,7 +125,7 @@ Directory `examples` has code for executables.
 
 The library has a test suite with near-100% coverage.
 
-A current test coverage report is [here][coverage].
+Go [here][coverage] for a current coverage report.
 
 [coverage]: https://awuersch.github.io/sslconf/coverage
 
