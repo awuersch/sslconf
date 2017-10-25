@@ -181,10 +181,6 @@ A directory `c` holds a C language program `dump_config.c` which calls
 Openssl to dump config information. It can be used to compare Openssl
 output to outputs from this implementation.
 
-Travis-CI processing moves `doc` and `_coverage` directories to the
-`gh-pages` branch of this repo on Github, for automated documentation
-update.
-
 ## Acknowledgements
 
 Thanks to the implementers of the Astring and Bisect_ppx packages, and to
