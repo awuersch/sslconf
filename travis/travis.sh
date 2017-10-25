@@ -67,7 +67,7 @@ git --version
 opam update
 opam install -y \
   astring sexplib ppx_sexp_conv ppx_deriving \
-  fpath cmdliner oUnit topkg topkg-jbuilder
+  fpath cmdliner rresult oUnit topkg topkg-jbuilder
 
 cd lib
 
