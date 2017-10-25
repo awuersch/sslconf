@@ -9,7 +9,7 @@
 set -o errexit -o nounset
 set -x
 
-SOURCE_BRANCH="jbuilder"
+SOURCE_BRANCH="master"
 TARGET_BRANCH="gh-pages"
 
 # Pull requests and commits to other branches shouldn't try to deploy, just build to verify
