@@ -199,8 +199,9 @@
         {- regular text.}}
 
     Whitespace is stripped from the start and end of a value.
-    Whitespace following the equal sign, and whitespace to the end of
-    a line, or up to a comment hash char if present, is ignored.
+    Whitespace following the equal sign, and whitespace,
+    either to the end of a line,
+    or up to a comment hash char if present, is ignored.
 
     {3 Quote wrapped parts}
 
@@ -238,7 +239,7 @@
     a value is found from the process environment.
 
     If substitution fails, the parser returns an error,
-    It reports that no value could be found for the name.
+    reporting that no value could be found for the name.
 
     A name given for name substitution may only contain
     alphanumeric or underscore characters.
