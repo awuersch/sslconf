@@ -6,6 +6,7 @@
 
 open OUnit2
 open Printf
+open Rresult
 open Testcase
 
 let append_result, close_oc =

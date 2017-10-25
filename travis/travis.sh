@@ -64,10 +64,10 @@ ocaml -version | grep $OCAML_VERSION
 opam --version
 git --version
 
+opam update
 opam install -y \
-  astring sexplib bisect_ppx ppx_sexp_conv ppx_deriving \
-  fpath cmdliner oUnit odoc \
-  topkg topkg-care topkg-jbuilder
+  astring sexplib ppx_sexp_conv ppx_deriving \
+  fpath cmdliner oUnit topkg topkg-jbuilder
 
 cd lib
 
@@ -77,14 +77,9 @@ echo
 make build
 
 echo
-echo "Documentation"
-echo
-make doc
-
-echo
 echo "Testing"
 echo
-make coverage
+make runtest
 
 cd ..
 

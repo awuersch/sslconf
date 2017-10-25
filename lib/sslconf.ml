@@ -281,6 +281,8 @@
    file.
 *)
 
+open Rresult
+
 module Buf = Buf
 
 module Bio = Bio

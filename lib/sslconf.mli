@@ -318,7 +318,7 @@ module Buf : sig
   val data : t -> Bytes.t
   (** [data buf] returns the underlying [Bytes.t] buffer. *)
 
-  val extend : t -> int -> (t, (string * int * int * int)) result
+  val extend : t -> int -> (t, (string * int * int * int)) Rresult.result
   (** [extend buf length] extends [buf] to support [length] bytes.
       [Ok buf] or [Error (msg length nbits allocation_limit)] is returned.
       New bytes up to [Bytes.length (Buf.data buf)] are initialized
@@ -372,7 +372,7 @@ type error =
 val string_of_error : error -> string
 (** [string_of_error error] converts an error to a user-readable string. *)
 
-val conf_load_file : t -> string -> (unit, error) result
+val conf_load_file : t -> string -> (unit, error) Rresult.result
 (** [conf_load_file conf filename] loads a file into a {!t} instance.
     The error instance describes only the first failure found. *)
 

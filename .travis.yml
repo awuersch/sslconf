@@ -11,6 +11,8 @@ matrix:
     - os: linux
       env: OCAML_VERSION=4.05
     - os: osx
+      env: OCAML_VERSION=4.03
+    - os: osx
       env: OCAML_VERSION=4.04
     - os: osx
       env: OCAML_VERSION=4.05
@@ -22,8 +24,6 @@ matrix:
 
 script:
   - bash -e ./travis/travis.sh
-after_success:
-  - bash -e ./travis/deploy.sh
 env:
   global:
     - ENCRYPTION_LABEL: e0f081eae562

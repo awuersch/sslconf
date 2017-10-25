@@ -9,9 +9,7 @@ build:
 
 .PHONY: doc
 doc:
-	cd .. && jbuilder build @doc
-	rm -rf ../doc/doc
-	cp -r ../_build/default/_doc ../doc/doc
+	topkg publish doc
 
 .PHONY: runtest
 runtest:

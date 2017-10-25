@@ -125,7 +125,7 @@ Directory `examples` has code for executables.
 
 The library has a test suite with near-100% coverage.
 
-A current test coverage report is [here][coverage].
+Go [here][coverage] for a current coverage report.
 
 [coverage]: https://awuersch.github.io/sslconf/coverage
 
@@ -146,6 +146,7 @@ To run tests:
 
 To test with `bisect_ppx` test coverage:
 
+    (add "bisect_ppx -conditional" to the preprocess line in lib/jbuild)
     cd lib
     make coverage
 

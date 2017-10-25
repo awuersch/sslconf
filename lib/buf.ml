@@ -10,6 +10,8 @@
    This code should mimic openssl crypto/buffer/buffer.c
 *)
 
+open Rresult
+
 (* nbits, length, data *)
 type t = int * int * Bytes.t
 

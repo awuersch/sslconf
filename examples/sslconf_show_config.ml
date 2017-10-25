@@ -5,6 +5,7 @@
   ---------------------------------------------------------------------------*)
 
 open Cmdliner
+open Rresult
 
 (* dump all testcases to config files in an empty directory *)
 
