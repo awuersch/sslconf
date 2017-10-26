@@ -1,3 +1,7 @@
+## 0.8.3 (2017-10-25)
+
+Restricted opam to less than OCaml 4.06.0
+
 ## 0.8.2 (2017-10-25)
 
 Added depends to sslconf.opam

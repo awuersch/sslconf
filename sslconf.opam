@@ -9,20 +9,18 @@ authors: [
 ]
 license: "ISC"
 depends: [
-  "jbuilder"
-  "ppx_sexp_conv"
-  "sexplib"
-  "astring"
-  "rresult"
-  "fpath"
-  "ounit"
-  "cmdliner"
-  "topkg"
-  "topkg-care"
-  "topkg-jbuilder"
+  "ocaml" {build & >= "4.03.0" & < "4.06.0"}
+  "jbuilder" {build}
+  "ppx_sexp_conv" {build}
+  "sexplib" {build}
+  "astring" {build}
+  "rresult" {build}
+  "fpath" {build}
+  "topkg-jbuilder" {build}
+  "ounit" {test}
+  "odoc" {doc}
 ]
 build: [
   ["jbuilder" "subst"] {pinned}
   ["jbuilder" "build" "-p" name "-j" jobs]
 ]
-available: [ ocaml-version >= "4.03.0"]
