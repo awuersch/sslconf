@@ -9,7 +9,6 @@ authors: [
 ]
 license: "ISC"
 depends: [
-  "ocaml" {build & >= "4.03.0" & < "4.06.0"}
   "jbuilder" {build}
   "ppx_sexp_conv" {build}
   "sexplib" {build}
@@ -24,3 +23,4 @@ build: [
   ["jbuilder" "subst"] {pinned}
   ["jbuilder" "build" "-p" name "-j" jobs]
 ]
+available: [ ocaml-version >= "4.03.0" & ocaml-version < "4.06.0" ]

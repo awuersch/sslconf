@@ -1,4 +1,4 @@
-## 0.8.3 (2017-10-25)
+## 0.8.3 (2017-10-26)
 
 Restricted opam to less than OCaml 4.06.0
 
