@@ -8,6 +8,19 @@ authors: [
   "Tony Wuersch <tony.wuersch@gmail.com>"
 ]
 license: "ISC"
+depends: [
+  "jbuilder"
+  "ppx_sexp_conv"
+  "sexplib"
+  "astring"
+  "rresult"
+  "fpath"
+  "ounit"
+  "cmdliner"
+  "topkg"
+  "topkg-care"
+  "topkg-jbuilder"
+]
 build: [
   ["jbuilder" "subst"] {pinned}
   ["jbuilder" "build" "-p" name "-j" jobs]
