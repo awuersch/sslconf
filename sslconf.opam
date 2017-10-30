@@ -11,10 +11,11 @@ license: "ISC"
 depends: [
   "jbuilder" {build}
   "ppx_sexp_conv" {build}
-  "sexplib" {build}
-  "astring" {build}
-  "rresult" {build}
-  "fpath" {build}
+  "sexplib"
+  "astring"
+  "rresult"
+  "fpath"
+  "cmdliner"
   "topkg-jbuilder" {build}
   "ounit" {test}
   "odoc" {doc}
