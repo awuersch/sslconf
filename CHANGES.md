@@ -1,6 +1,6 @@
 ## 0.8.3 (2017-10-26)
 
-Restricted opam to less than OCaml 4.06.0
+Responded to reviewer comments, ready to go.
 
 ## 0.8.2 (2017-10-25)
 
